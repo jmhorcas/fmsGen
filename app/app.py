@@ -1,14 +1,21 @@
 import os
 
+import dotenv
+
 import flask
 
 from blueprints.config_gen import config_gen_bp
+
+
+# Load configurables (environment) variables from a configuration file
+dotenv.load_dotenv()
 
 # Create the App
 app = flask.Flask(__name__,
                   template_folder='templates',
                   static_folder='static',
                   static_url_path='/static')
+#app.config['GENERATION_FOLDER'] = os.getenv('GENERATION_FOLDER')
 
 
 # Register blueprints
