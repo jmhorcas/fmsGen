@@ -27,7 +27,9 @@ from language_constructs.models.constructs import (
 #     NUM_MODELS = 'num_models'
 
 
-def generate_feature_models(num_models: int, dir: str) -> None:
+def generate_feature_models(num_models: int, 
+                            model_name_prefix: str,
+                            dir: str) -> None:
     n_features = 100
     n_constraints = 10
     features_names = [f'F{i}' for i in range(1, n_features + 1)]
@@ -38,7 +40,7 @@ def generate_feature_models(num_models: int, dir: str) -> None:
         # Generate a random FM
         fm = language.generate_random_feature_model(features_names, n_constraints)
         # Serialize the FM
-        output_file = os.path.join(dir, f'fm{i}_{len(fm.get_features())}f_{len(fm.get_constraints())}c.uvl')
+        output_file = os.path.join(dir, f'{model_name_prefix}{i}_{len(fm.get_features())}f_{len(fm.get_constraints())}c.uvl')
         UVLWriter(source_model=fm, path=output_file).transform()
     return None
 

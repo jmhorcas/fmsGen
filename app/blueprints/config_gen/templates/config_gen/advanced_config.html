@@ -1,4 +1,4 @@
-<form id="basic_config_form" action="{{ url_for('config_gen.fms_gen') }}" method="POST">
+<form id="advanced_config_form" action="{{ url_for('config_gen.fms_gen') }}" method="POST">
 
   <!-- PARAM: Number of models -->
   <div class="row g-3 align-items-center">
@@ -14,6 +14,8 @@
         Number of models to be generated (mininum 1).
       </span>
     </div>
+
+    
   </div>
 
   <!-- PARAM: model's name -->
@@ -31,22 +33,5 @@
       </span>
     </div>
   </div>
-
-  <!-- PARAM: num_features -->
-  <div class="row g-3 align-items-center">
-    <div class="col-sm-1">
-      <label for="num_features" class="col-form-label">#Features</label>
-    </div>
-    <div class="col-auto">
-      <input type="number" min="1" value="{{params.num_features}}" id="num_features" name="num_features" class="form-control"
-        aria-describedby="num_featuresHelpInline">
-    </div>
-    <div class="col-auto">
-      <span id="num_featuresHelpInline" class="form-text">
-        Number of models to be generated (mininum 1).
-      </span>
-    </div>
-  </div>
-
 
 </form>

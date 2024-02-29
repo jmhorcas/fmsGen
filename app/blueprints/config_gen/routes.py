@@ -24,14 +24,17 @@ def fms_gen():
 
         # Generate random feature models
         with tempfile.TemporaryDirectory() as temp_dir:
-            generate_feature_models(params['num_models'], temp_dir)
+            generate_feature_models(num_models=params['num_models'], 
+                                    model_name_prefix=params['model_name'],
+                                    dir=temp_dir)
         
             # Prepare files for download
             temp_filepath = tempfile.NamedTemporaryFile(mode='w', encoding='utf8').name
             temp_zipfile = shutil.make_archive(temp_filepath, 'zip', temp_dir)
+            zip_filename = f"{params['model_name']}{params['num_models']}.zip"
             response = flask.make_response(flask.send_file(path_or_file=temp_zipfile, 
                                                             as_attachment=True, 
-                                                            download_name='models.zip'))
+                                                            download_name=zip_filename))
         return response
     else:
         flask.render_template('config_gen/index.html') 
@@ -40,4 +43,5 @@ def fms_gen():
 def get_parameters_from_request(request: flask.Request) -> dict[str, Any]:
     params = dict()
     params['num_models'] = int(request.form['num_models']) if request else 1
+    params['model_name'] = request.form['model_name'] if request else 'fm'
     return params
