@@ -1,0 +1,15 @@
+<form id="basic_config_form" action="{{ url_for('config_gen.fms_gen') }}" method="POST">
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+          <label for="num_models" class="col-form-label">#Models</label>
+        </div>
+        <div class="col-auto">
+          <input type="number" min="1" value="{{params.num_models}}" id="num_models" name="num_models" class="form-control" aria-describedby="numModelsHelpInline">
+        </div>
+        <div class="col-auto">
+          <span id="numModelsHelpInline" class="form-text">
+            Number of models to be generated (mininum 1).
+          </span>
+        </div>
+      </div>
+  </form>
