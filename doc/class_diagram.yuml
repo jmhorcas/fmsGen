@@ -1,0 +1,11 @@
+// FMs Gen
+// -------------------
+
+// Chain elements like this
+//[LanguageConstruct]<>-orders*>[Order]++-0..*>[LineItem]
+
+// Add notes
+//[Order]-[note: Aggregate Root ala DDD]
+
+// Add more detail
+[≪Interface≫;LanguageConstruct|+name(): str;≪static≫ +count(fm: FeatureModel): int;+get(): Any; +apply(fm: FeatureModel): FeatureModel;+is_applicable(fm: FeatureModel): bool;≪static≫+get_applicable_instances(fm: FeatureModel, features: list(str)): list(LanguageConstruct);≪static≫+get_random_applicable_instance(fm: FeatureModel, features: list(str)): LanguageConstruct;+get_features(): list(str);]

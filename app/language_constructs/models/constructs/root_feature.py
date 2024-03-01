@@ -9,7 +9,7 @@ class RootFeature(LanguageConstruct):
 
     def __init__(self, name: str) -> None:
         self._name = name
-        self.root = None
+        self.feature = None
 
     @staticmethod
     def name() -> str:
@@ -20,7 +20,7 @@ class RootFeature(LanguageConstruct):
         return 0 if fm.root is None else 1 
 
     def get(self) -> Feature:
-        return self.root
+        return self.feature
 
     def apply(self, fm: FeatureModel) -> FeatureModel:
         self.feature = Feature(name=self._name)
@@ -32,12 +32,9 @@ class RootFeature(LanguageConstruct):
 
     @staticmethod
     def get_applicable_instances(fm: FeatureModel, features_names: list[str]) -> list['LanguageConstruct']:
-        lcs = []
-        for f_name in features_names:
-            lc = RootFeature(f_name)
-            if lc.is_applicable(fm):
-                lcs.append(lc)
-        return lcs
+        if fm is None or fm.root is not None:
+            return []
+        return [RootFeature(f_name) for f_name in features_names]
 
     @staticmethod
     def get_random_applicable_instance(fm: FeatureModel, features_names: list[str]) -> 'LanguageConstruct':
