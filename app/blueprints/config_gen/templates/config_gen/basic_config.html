@@ -3,20 +3,20 @@
   <!-- PARAM: Number of models -->
   <div class="row g-3 align-items-center">
     <div class="col-sm-1">
-      <label for="NUM_MODELS" class="col-form-label">#Models</label>
+      <label for="NUM_MODELS" class="col-form-label">{{params.NUM_MODELS.title}}</label>
     </div>
     <div class="col-auto">
-      <input type="number" min="1" value="{{params.NUM_MODELS}}" id="NUM_MODELS" name="NUM_MODELS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" title="Number of models to be generated (mininum 1).">
+      <input type="number" min="1" value="{{params.NUM_MODELS.value}}" id="NUM_MODELS" name="NUM_MODELS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.NUM_MODELS.description}}">
     </div>
   </div>
 
   <!-- PARAM: model's name -->
   <div class="row g-3 align-items-center">
     <div class="col-sm-1">
-      <label for="MODEL_NAME_PREFIX" class="col-form-label">Name/Prefix</label>
+      <label for="MODEL_NAME_PREFIX" class="col-form-label">{{params.MODEL_NAME_PREFIX.title}}</label>
     </div>
     <div class="col-auto">
-      <input value="{{params.MODEL_NAME_PREFIX}}" id="MODEL_NAME_PREFIX" name="MODEL_NAME_PREFIX" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" title="Name or prefix of the model.">
+      <input value="{{params.MODEL_NAME_PREFIX.value}}" id="MODEL_NAME_PREFIX" name="MODEL_NAME_PREFIX" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.MODEL_NAME_PREFIX.description}}">
     </div>
   </div>
 
@@ -24,9 +24,9 @@
     <div class="row g-3 align-items-center">
       <div class="col-sm-1"></div>
       <div class="col-auto">
-        <input class="form-check-input" type="checkbox" id="INCLUDE_NUMFEATURES_PREFIX" name="INCLUDE_NUMFEATURES_PREFIX"  {% if params and params.INCLUDE_NUMFEATURES_PREFIX %}checked{% endif %}>
-        <label class="form-check-label" for="flexCheckChecked">
-          Include #Features as prefix
+        <input class="form-check-input" type="checkbox" id="INCLUDE_NUMFEATURES_PREFIX" name="INCLUDE_NUMFEATURES_PREFIX" {% if params and params.INCLUDE_NUMFEATURES_PREFIX.value %}checked{% endif %}>
+        <label class="form-check-label" for="flexCheckChecked" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.INCLUDE_NUMFEATURES_PREFIX.description}}" >
+          {{params.INCLUDE_NUMFEATURES_PREFIX.title}}
         </label>
       </div>
     </div>
@@ -35,9 +35,9 @@
     <div class="row g-3 align-items-center">
       <div class="col-sm-1"></div>
       <div class="col-auto">
-        <input class="form-check-input" type="checkbox" id="INCLUDE_NUMCONSTRAINTS_PREFIX" name="INCLUDE_NUMCONSTRAINTS_PREFIX"  {% if params and params.INCLUDE_NUMCONSTRAINTS_PREFIX %}checked{% endif %}>
-        <label class="form-check-label" for="flexCheckChecked">
-          Include #Constraints as prefix
+        <input class="form-check-input" type="checkbox" id="INCLUDE_NUMCONSTRAINTS_PREFIX" name="INCLUDE_NUMCONSTRAINTS_PREFIX" {% if params and params.INCLUDE_NUMCONSTRAINTS_PREFIX.value %}checked{% endif %}>
+        <label class="form-check-label" for="flexCheckChecked" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.INCLUDE_NUMCONSTRAINTS_PREFIX.description}}" >
+          {{params.INCLUDE_NUMCONSTRAINTS_PREFIX.title}}
         </label>
       </div>
     </div>

@@ -28,7 +28,12 @@ from language_constructs.models.constructs import (
 class ConfigParam(ABC):
     """It defines the configuration parameters."""
 
-    def __init__(self, default_value: Any) -> None:
+    def __init__(self, 
+                 title: str = None,
+                 default_value: Any = None,
+                 description: str = None) -> None:
+        self.title = title
+        self.description = description
         self._value: Any = default_value
         self._default_value = self._parse_value(default_value)
 
@@ -43,6 +48,9 @@ class ConfigParam(ABC):
     @abstractmethod
     def _parse_value(self, value: Any) -> Any:
         pass
+
+    def to_dict(self) -> dict[str, Any]:
+        return {'title': self.title, 'value': self.value, 'description': self.description}
 
 
 class StrConfigParam(ConfigParam):
@@ -71,16 +79,16 @@ class CheckBoxConfigParam(ConfigParam):
 
 class Params(Enum):
     # Visible configurable options
-    NUM_MODELS = IntConfigParam(10)
-    MODEL_NAME_PREFIX = StrConfigParam('fm')
-    INCLUDE_NUMFEATURES_PREFIX = CheckBoxConfigParam(True)
-    INCLUDE_NUMCONSTRAINTS_PREFIX = CheckBoxConfigParam(True)
+    NUM_MODELS = IntConfigParam('#Models', 10, 'Number of models to be generated (minimum 1).')
+    MODEL_NAME_PREFIX = StrConfigParam('Name/Prefix', 'fm', 'Name or prefix of the model.')
+    INCLUDE_NUMFEATURES_PREFIX = CheckBoxConfigParam("Include #Features as name's sufix", True, "Models' names ends with '_XXf' where X is the number of features.")
+    INCLUDE_NUMCONSTRAINTS_PREFIX = CheckBoxConfigParam("Include #Constraints as name's sufix", True, "Models' names ends with '_XXc' where X is the number of constraints.")
 
     # Non-visible configurable options
-    SERIALIZATION_TEMPORAL_DIR = StrConfigParam('tmp/generated')
+    SERIALIZATION_TEMPORAL_DIR = StrConfigParam('Temporal dir', 'tmp/generated', 'Temporal directory used for generating the models.')
 
 
-def generate_feature_models(config_params: dict[str, Any]) -> None:
+def generate_feature_models(config_params: dict[dict[str, Any]]) -> None:
     tree_lcs = [OptionalFeature, MandatoryFeature, XorGroup, OrGroup, XorChildFeature, OrChildFeature]
     constraints_lcs = [RequiresConstraint, ExcludesConstraint]
     n_features = 100
@@ -91,8 +99,8 @@ def generate_feature_models(config_params: dict[str, Any]) -> None:
                          constraints_language_constructs=constraints_lcs,
                          features_names=features_names,
                          n_constraints = n_constraints)
-    fm_gen.set_serialization(models_name_prefix=config_params[Params.MODEL_NAME_PREFIX.name], 
-                             dir=config_params[Params.SERIALIZATION_TEMPORAL_DIR.name],
-                             include_num_features=config_params[Params.INCLUDE_NUMFEATURES_PREFIX.name],
-                             include_num_constraints=config_params[Params.INCLUDE_NUMCONSTRAINTS_PREFIX.name])
-    fm_gen.generate_n_fms(n_models=config_params[Params.NUM_MODELS.name])
+    fm_gen.set_serialization(models_name_prefix=config_params[Params.MODEL_NAME_PREFIX.name]['value'], 
+                             dir=config_params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value'],
+                             include_num_features=config_params[Params.INCLUDE_NUMFEATURES_PREFIX.name]['value'],
+                             include_num_constraints=config_params[Params.INCLUDE_NUMCONSTRAINTS_PREFIX.name]['value'])
+    fm_gen.generate_n_fms(n_models=config_params[Params.NUM_MODELS.name]['value'])

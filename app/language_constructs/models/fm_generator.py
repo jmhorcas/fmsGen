@@ -56,9 +56,7 @@ class FMGenerator():
 
     def _generate_root_feature(self, fm: FeatureModel, features: list[str]) -> FeatureModel:
         root_gen = RootFeature.get_random_applicable_instance(fm, features)
-        print(f'root_gen: {root_gen}')
         fm = root_gen.apply(fm)
-        print(f'FM: {fm}')
         features.remove(root_gen.get().name)
         return fm
     
