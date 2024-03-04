@@ -1,28 +1,26 @@
-<form id="basic_config_form" action="{{ url_for('config_gen.fms_gen') }}" method="POST">
-
   <!-- PARAM: Number of models -->
   <div class="row g-3 align-items-center">
-    <div class="col-sm-1">
+    <div class="col-2">
       <label for="NUM_MODELS" class="col-form-label">{{params.NUM_MODELS.title}}</label>
     </div>
-    <div class="col-auto">
+    <div class="col-2">
       <input type="number" min="1" value="{{params.NUM_MODELS.value}}" id="NUM_MODELS" name="NUM_MODELS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.NUM_MODELS.description}}">
     </div>
   </div>
 
   <!-- PARAM: model's name -->
   <div class="row g-3 align-items-center">
-    <div class="col-sm-1">
+    <div class="col-2">
       <label for="MODEL_NAME_PREFIX" class="col-form-label">{{params.MODEL_NAME_PREFIX.title}}</label>
     </div>
-    <div class="col-auto">
+    <div class="col-2">
       <input value="{{params.MODEL_NAME_PREFIX.value}}" id="MODEL_NAME_PREFIX" name="MODEL_NAME_PREFIX" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.MODEL_NAME_PREFIX.description}}">
     </div>
   </div>
 
     <!-- PARAM: include number of features as prefix -->
     <div class="row g-3 align-items-center">
-      <div class="col-sm-1"></div>
+      <div class="col-2"></div>
       <div class="col-auto">
         <input class="form-check-input" type="checkbox" id="INCLUDE_NUMFEATURES_PREFIX" name="INCLUDE_NUMFEATURES_PREFIX" {% if params and params.INCLUDE_NUMFEATURES_PREFIX.value %}checked{% endif %}>
         <label class="form-check-label" for="flexCheckChecked" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.INCLUDE_NUMFEATURES_PREFIX.description}}" >
@@ -33,7 +31,7 @@
 
     <!-- PARAM: include number of constraints as prefix -->
     <div class="row g-3 align-items-center">
-      <div class="col-sm-1"></div>
+      <div class="col-2"></div>
       <div class="col-auto">
         <input class="form-check-input" type="checkbox" id="INCLUDE_NUMCONSTRAINTS_PREFIX" name="INCLUDE_NUMCONSTRAINTS_PREFIX" {% if params and params.INCLUDE_NUMCONSTRAINTS_PREFIX.value %}checked{% endif %}>
         <label class="form-check-label" for="flexCheckChecked" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.INCLUDE_NUMCONSTRAINTS_PREFIX.description}}" >
@@ -41,22 +39,3 @@
         </label>
       </div>
     </div>
-
-  <!-- PARAM: num_features -->
-  <div class="row g-3 align-items-center">
-    <div class="col-sm-1">
-      <label for="num_features" class="col-form-label">#Features</label>
-    </div>
-    <div class="col-auto">
-      <input type="number" min="1" value="{{params.num_features}}" id="num_features" name="num_features" class="form-control"
-        aria-describedby="num_featuresHelpInline">
-    </div>
-    <div class="col-auto">
-      <span id="num_featuresHelpInline" class="form-text">
-        Number of models to be generated (mininum 1).
-      </span>
-    </div>
-  </div>
-
-
-</form>

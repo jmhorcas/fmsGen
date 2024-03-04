@@ -79,10 +79,19 @@ class CheckBoxConfigParam(ConfigParam):
 
 class Params(Enum):
     # Visible configurable options
+    # Basic configs
     NUM_MODELS = IntConfigParam('#Models', 10, 'Number of models to be generated (minimum 1).')
     MODEL_NAME_PREFIX = StrConfigParam('Name/Prefix', 'fm', 'Name or prefix of the model.')
     INCLUDE_NUMFEATURES_PREFIX = CheckBoxConfigParam("Include #Features as name's sufix", True, "Models' names ends with '_XXf' where X is the number of features.")
     INCLUDE_NUMCONSTRAINTS_PREFIX = CheckBoxConfigParam("Include #Constraints as name's sufix", True, "Models' names ends with '_XXc' where X is the number of constraints.")
+
+    # Advanced configs
+    MIN_NUM_FEATURES = IntConfigParam('#Features min', 10, 'Minimum number of features.')
+    MAX_NUM_FEATURES = IntConfigParam('max', 10, 'Maximum number of features.')
+    UNIFORM_NUM_FEATURES = CheckBoxConfigParam('Uniform number of features', False, 'Generate the models with a uniform number of features between min and max (default random).')
+    MIN_NUM_CONSTRAINTS = IntConfigParam('#Constraints min', 1, 'Minimum number of constraints.')
+    MAX_NUM_CONSTRAINTS = IntConfigParam('max', 1, 'Maximum number of constraints.')
+    UNIFORM_NUM_CONSTRAINTS = CheckBoxConfigParam('Uniform number of constraints', False, 'Generate the models with a uniform number of constraints between min and max (default random).')
 
     # Non-visible configurable options
     SERIALIZATION_TEMPORAL_DIR = StrConfigParam('Temporal dir', 'tmp/generated', 'Temporal directory used for generating the models.')
@@ -91,16 +100,17 @@ class Params(Enum):
 def generate_feature_models(config_params: dict[dict[str, Any]]) -> None:
     tree_lcs = [OptionalFeature, MandatoryFeature, XorGroup, OrGroup, XorChildFeature, OrChildFeature]
     constraints_lcs = [RequiresConstraint, ExcludesConstraint]
-    n_features = 100
-    n_constraints = 0
-    features_names = [f'F{i}' for i in range(1, n_features + 1)]
 
     fm_gen = FMGenerator(tree_language_constructs=tree_lcs,
-                         constraints_language_constructs=constraints_lcs,
-                         features_names=features_names,
-                         n_constraints = n_constraints)
+                         constraints_language_constructs=constraints_lcs)
     fm_gen.set_serialization(models_name_prefix=config_params[Params.MODEL_NAME_PREFIX.name]['value'], 
                              dir=config_params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value'],
                              include_num_features=config_params[Params.INCLUDE_NUMFEATURES_PREFIX.name]['value'],
                              include_num_constraints=config_params[Params.INCLUDE_NUMCONSTRAINTS_PREFIX.name]['value'])
+    fm_gen.set_features(min_num_features=config_params[Params.MIN_NUM_FEATURES.name]['value'],
+                        max_num_features=config_params[Params.MAX_NUM_FEATURES.name]['value'],
+                        uniform_num_features=config_params[Params.UNIFORM_NUM_FEATURES.name]['value'])
+    fm_gen.set_constraints(min_num_constraints=config_params[Params.MIN_NUM_CONSTRAINTS.name]['value'],
+                           max_num_constraints=config_params[Params.MAX_NUM_CONSTRAINTS.name]['value'],
+                           uniform_num_constraints=config_params[Params.UNIFORM_NUM_CONSTRAINTS.name]['value'],)
     fm_gen.generate_n_fms(n_models=config_params[Params.NUM_MODELS.name]['value'])
