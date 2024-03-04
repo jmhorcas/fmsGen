@@ -1,43 +1,45 @@
 <!-- PARAM: Minimum and maximum number of features -->
-<div class="row g-3 align-items-center">
-  <div class="col-2">
-    <label for="MIN_NUM_FEATURES" class="col-form-label">{{params.MIN_NUM_FEATURES.title}}</label>
-  </div>
-  <div class="col-2">
-    <input type="number" min="1" value="{{params.MIN_NUM_FEATURES.value}}" id="MIN_NUM_FEATURES" name="MIN_NUM_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MIN_NUM_FEATURES.description}}">
-  </div>
-  <div class="col-auto">
-    <label for="MAX_NUM_FEATURES" class="col-form-label">{{params.MAX_NUM_FEATURES.title}}</label>
-  </div>
-  <div class="col-2">
-    <input type="number" value="{{params.MAX_NUM_FEATURES.value}}" min="1" id="MAX_NUM_FEATURES" name="MAX_NUM_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MAX_NUM_FEATURES.description}}">
-  </div>
-  <div class="col-auto">
-    <input class="form-check-input" type="checkbox" id="UNIFORM_NUM_FEATURES" name="UNIFORM_NUM_FEATURES" {% if params and params.UNIFORM_NUM_FEATURES.value %}checked{% endif %}>
-    <label class="form-check-label" for="flexCheckChecked" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.UNIFORM_NUM_FEATURES.description}}" >
-      {{params.UNIFORM_NUM_FEATURES.title}}
-    </label>
-  </div>
-</div>
+<fieldset class="customLegend row">
+  <legend>Features</legend>
+    <div class="col-auto">
+      <label for="MIN_NUM_FEATURES" class="col-form-label">{{params.MIN_NUM_FEATURES.title}}</label>
+    </div>
+    <div class="col-2">
+      <input type="number" min="1" value="{{params.MIN_NUM_FEATURES.value}}" id="MIN_NUM_FEATURES" name="MIN_NUM_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MIN_NUM_FEATURES.description}}">
+    </div>
+    <div class="col-auto">
+      <label for="MAX_NUM_FEATURES" class="col-form-label">{{params.MAX_NUM_FEATURES.title}}</label>
+    </div>
+    <div class="col-2">
+      <input type="number" value="{{params.MAX_NUM_FEATURES.value}}" min="1" id="MAX_NUM_FEATURES" name="MAX_NUM_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MAX_NUM_FEATURES.description}}">
+    </div>
+    <div class="col-auto">
+      <input class="form-check-input" type="checkbox" id="UNIFORM_NUM_FEATURES" name="UNIFORM_NUM_FEATURES" {% if params and params.UNIFORM_NUM_FEATURES.value %}checked{% endif %}>
+      <label class="form-check-label" for="UNIFORM_NUM_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.UNIFORM_NUM_FEATURES.description}}" >
+        {{params.UNIFORM_NUM_FEATURES.title}}
+      </label>
+    </div>
+</fieldset>
 
 <!-- PARAM: Minimum and maximum number of constraints -->
-<div class="row g-3 align-items-center">
-  <div class="col-2">
-    <label for="MIN_NUM_CONSTRAINTS" class="col-form-label">{{params.MIN_NUM_CONSTRAINTS.title}}</label>
-  </div>
-  <div class="col-2">
-    <input type="number" min="1" value="{{params.MIN_NUM_CONSTRAINTS.value}}" id="MIN_NUM_CONSTRAINTS" name="MIN_NUM_CONSTRAINTS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MIN_NUM_CONSTRAINTS.description}}">
-  </div>
-  <div class="col-auto">
-    <label for="MAX_NUM_CONSTRAINTS" class="col-form-label">{{params.MAX_NUM_CONSTRAINTS.title}}</label>
-  </div>
-  <div class="col-2">
-    <input type="number" value="{{params.MAX_NUM_CONSTRAINTS.value}}" min="1" id="MAX_NUM_CONSTRAINTS" name="MAX_NUM_CONSTRAINTS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MAX_NUM_CONSTRAINTS.description}}">
-  </div>
-  <div class="col-auto">
-    <input class="form-check-input" type="checkbox" id="UNIFORM_NUM_CONSTRAINTS" name="UNIFORM_NUM_CONSTRAINTS" {% if params and params.UNIFORM_NUM_CONSTRAINTS.value %}checked{% endif %}>
-    <label class="form-check-label" for="flexCheckChecked" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.UNIFORM_NUM_CONSTRAINTS.description}}" >
-      {{params.UNIFORM_NUM_CONSTRAINTS.title}}
-    </label>
-  </div>
-</div>
+<fieldset class="customLegend row">
+  <legend>Constraints</legend>
+    <div class="col-auto">
+      <label for="MIN_NUM_CONSTRAINTS" class="col-form-label">{{params.MIN_NUM_CONSTRAINTS.title}}</label>
+    </div>
+    <div class="col-2">
+      <input type="number" min="1" value="{{params.MIN_NUM_CONSTRAINTS.value}}" id="MIN_NUM_CONSTRAINTS" name="MIN_NUM_CONSTRAINTS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MIN_NUM_CONSTRAINTS.description}}">
+    </div>
+    <div class="col-auto">
+      <label for="MAX_NUM_CONSTRAINTS" class="col-form-label">{{params.MAX_NUM_CONSTRAINTS.title}}</label>
+    </div>
+    <div class="col-2">
+      <input type="number" value="{{params.MAX_NUM_CONSTRAINTS.value}}" min="1" id="MAX_NUM_CONSTRAINTS" name="MAX_NUM_CONSTRAINTS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MAX_NUM_CONSTRAINTS.description}}">
+    </div>
+    <div class="col-auto">
+      <input class="form-check-input" type="checkbox" id="UNIFORM_NUM_CONSTRAINTS" name="UNIFORM_NUM_CONSTRAINTS" {% if params and params.UNIFORM_NUM_CONSTRAINTS.value %}checked{% endif %}>
+      <label class="form-check-label" for="UNIFORM_NUM_CONSTRAINTS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.UNIFORM_NUM_CONSTRAINTS.description}}" >
+        {{params.UNIFORM_NUM_CONSTRAINTS.title}}
+      </label>
+    </div>
+</fieldset>
