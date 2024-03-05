@@ -75,7 +75,13 @@ class CheckBoxConfigParam(ConfigParam):
 
    def _parse_value(self, value: Any) -> bool:
         return value is not None and str(value).lower() in ['on', 'true']
-        
+
+
+class NoneConfigParam(ConfigParam):
+
+   def _parse_value(self, value: Any) -> bool:
+        return None
+   
 
 class Params(Enum):
     # Visible configurable options
@@ -87,8 +93,9 @@ class Params(Enum):
     
     ##########
     # Advanced configs
-    MIN_NUM_FEATURES = IntConfigParam('#Features min', 10, 'Minimum number of features.')
-    MAX_NUM_FEATURES = IntConfigParam('max', 10, 'Maximum number of features.')
+    FEATURES = NoneConfigParam('#Features', None, 'Features of the model.')
+    MIN_NUM_FEATURES = IntConfigParam('Minimum number of features', 10, 'Minimum number of features.')
+    MAX_NUM_FEATURES = IntConfigParam('Maximum number of features', 10, 'Maximum number of features.')
     UNIFORM_NUM_FEATURES = CheckBoxConfigParam('Uniform number of features', False, 'Generate the models with a uniform number of features between min and max (default random).')
     MIN_NUM_CONSTRAINTS = IntConfigParam('#Constraints min', 1, 'Minimum number of constraints.')
     MAX_NUM_CONSTRAINTS = IntConfigParam('max', 1, 'Maximum number of constraints.')
@@ -99,7 +106,7 @@ class Params(Enum):
     PERCENTAGE_ABSTRACT_FEATURES = IntConfigParam('', 0, 'Percentage of abstract features.')
     ABSTRACT_LEAF_FEATURES = CheckBoxConfigParam('Allow abstract leaf features', False, 'Leaf features can be abstract too.')
     INTERNAL_ABSTRACT_FEATURES = CheckBoxConfigParam('Make all internal features abstract', False, 'All non-leaf features will be abstract features.')
-    ROOT_ABSTRACT_FEATURE = CheckBoxConfigParam('Make the root feature abstract', False, 'The root feature is always abstract.')
+    ROOT_ABSTRACT_FEATURE = CheckBoxConfigParam('Make the root abstract', False, 'The root feature is always abstract.')
 
     ##########
     # Non-visible configurable options

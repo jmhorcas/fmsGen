@@ -4,38 +4,51 @@
   <!-- Features -->
   <div class="row align-items-center">
     <div class="col-auto">
-      <label for="MIN_NUM_FEATURES" class="col-form-label">{{params.MIN_NUM_FEATURES.title}}</label>
-    </div>
-    <div class="col-2">
-      <input type="number" min="1" value="{{params.MIN_NUM_FEATURES.value}}" id="MIN_NUM_FEATURES" name="MIN_NUM_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MIN_NUM_FEATURES.description}}">
+      <label for="MIN_NUM_FEATURES" class="col-form-label">{{params.FEATURES.title}}</label>
     </div>
     <div class="col-auto">
-      <label for="MAX_NUM_FEATURES" class="col-form-label">{{params.MAX_NUM_FEATURES.title}}</label>
-    </div>
-    <div class="col-2">
-      <input type="number" value="{{params.MAX_NUM_FEATURES.value}}" min="1" id="MAX_NUM_FEATURES" name="MAX_NUM_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MAX_NUM_FEATURES.description}}">
-    </div>
-    <div class="col-auto">
-      <input class="form-check-input" type="checkbox" id="UNIFORM_NUM_FEATURES" name="UNIFORM_NUM_FEATURES" {% if params and params.UNIFORM_NUM_FEATURES.value %}checked{% endif %}>
-      <label class="form-check-label" for="UNIFORM_NUM_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.UNIFORM_NUM_FEATURES.description}}" >
-        {{params.UNIFORM_NUM_FEATURES.title}}
+      <label class="visually-hidden" for="MIN_NUM_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.MIN_NUM_FEATURES.description}}">
+        {{params.MIN_NUM_FEATURES.title}}
       </label>
+      <div class="input-group">
+        <div class="input-group-text">min</div>
+        <input type="number" min="1" value="{{params.MIN_NUM_FEATURES.value}}" id="MIN_NUM_FEATURES" name="MIN_NUM_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MIN_NUM_FEATURES.description}}">
+      </div>
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="MAX_NUM_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.MAX_NUM_FEATURES.description}}">
+        {{params.MAX_NUM_FEATURES.title}}
+      </label>
+      <div class="input-group">
+        <div class="input-group-text">max</div>
+        <input type="number" min="1" value="{{params.MAX_NUM_FEATURES.value}}" id="MAX_NUM_FEATURES" name="MAX_NUM_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.MAX_NUM_FEATURES.description}}">
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="UNIFORM_NUM_FEATURES" name="UNIFORM_NUM_FEATURES" {% if params and params.UNIFORM_NUM_FEATURES.value %}checked{% endif %}>
+        <label class="form-check-label" for="UNIFORM_NUM_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.UNIFORM_NUM_FEATURES.description}}" >
+          {{params.UNIFORM_NUM_FEATURES.title}}
+        </label>
+      </div>
     </div>
   </div>
   <!-- Abstract features -->
-  <div class="row align-items-center">
+  <div class="row pt-1 align-items-center">
     <div class="col-auto">
-      <input class="form-check-input" type="checkbox" id="ABSTRACT_FEATURES" name="ABSTRACT_FEATURES" {% if params and params.ABSTRACT_FEATURES.value %}checked{% endif %}>
-      <label class="form-check-label" for="ABSTRACT_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.ABSTRACT_FEATURES.description}}" >
-        {{params.ABSTRACT_FEATURES.title}}
-      </label>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ABSTRACT_FEATURES" name="ABSTRACT_FEATURES" {% if params and params.ABSTRACT_FEATURES.value %}checked{% endif %}>
+        <label class="form-check-label" for="ABSTRACT_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.ABSTRACT_FEATURES.description}}" >
+          {{params.ABSTRACT_FEATURES.title}}
+        </label>
+      </div>
     </div>
     <div class="col-auto">
       <label class="visually-hidden" for="PERCENTAGE_ABSTRACT_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.PERCENTAGE_ABSTRACT_FEATURES.description}}">
         {{params.PERCENTAGE_ABSTRACT_FEATURES.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_ABSTRACT_FEATURES.value}}" id="PERCENTAGE_ABSTRACT_FEATURES" name="PERCENTAGE_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_ABSTRACT_FEATURES.description}}">
+        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_ABSTRACT_FEATURES.value}}" id="PERCENTAGE_ABSTRACT_FEATURES" name="PERCENTAGE_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_ABSTRACT_FEATURES.description}}" {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
         <div class="input-group-text">%</div>
       </div>
     </div>
@@ -44,8 +57,28 @@
         {{params.NUM_ABSTRACT_FEATURES.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" max="100" value="{{params.NUM_ABSTRACT_FEATURES.value}}" id="NUM_ABSTRACT_FEATURES" name="NUM_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_ABSTRACT_FEATURES.description}}">
+        <input type="number" min="0" max="100" value="{{params.NUM_ABSTRACT_FEATURES.value}}" id="NUM_ABSTRACT_FEATURES" name="NUM_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_ABSTRACT_FEATURES.description}}" {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
         <div class="input-group-text">n</div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ROOT_ABSTRACT_FEATURE" name="ROOT_ABSTRACT_FEATURE" {% if params and params.ROOT_ABSTRACT_FEATURE.value %}checked{% endif %} {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
+        <label class="form-check-label" for="ROOT_ABSTRACT_FEATURE" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.ROOT_ABSTRACT_FEATURE.description}}" {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
+          {{params.ROOT_ABSTRACT_FEATURE.title}}
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="INTERNAL_ABSTRACT_FEATURES" name="INTERNAL_ABSTRACT_FEATURES" {% if params and params.INTERNAL_ABSTRACT_FEATURES.value %}checked{% endif %} {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
+        <label class="form-check-label" for="INTERNAL_ABSTRACT_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.INTERNAL_ABSTRACT_FEATURES.description}}" {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
+          {{params.INTERNAL_ABSTRACT_FEATURES.title}}
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ABSTRACT_LEAF_FEATURES" name="ABSTRACT_LEAF_FEATURES" {% if params and params.ABSTRACT_LEAF_FEATURES.value %}checked{% endif %} {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
+        <label class="form-check-label" for="ABSTRACT_LEAF_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.ABSTRACT_LEAF_FEATURES.description}}" {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
+          {{params.ABSTRACT_LEAF_FEATURES.title}}
+        </label>
       </div>
     </div>
   </div>

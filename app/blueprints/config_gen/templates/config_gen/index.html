@@ -8,7 +8,7 @@
 <div class="container-fluid">
     <form id="config_form" action="{{ url_for('config_gen.fms_gen') }}" method="POST">
         <div class="row">
-            <div class="col-8">
+            <div class="col-10">
                 <div class="accordion" id="accordionPanelsStayOpenExample">
                     <div class="accordion-item">
                     <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -48,7 +48,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-2">
                 <button type="submit" class="btn btn-primary" form="config_form">Generate!</button>
             </div>
         </div>
@@ -58,5 +58,5 @@
 
 {% block scripts %}
     <!-- Script for validating integers -->
-    <script src="{{url_for('config_gen.static', filename='js/validate_integers.js')}}"></script>
+    <script src="{{url_for('config_gen.static', filename='js/config_form_validation.js')}}"></script>
 {% endblock %}

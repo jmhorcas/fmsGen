@@ -42,3 +42,23 @@ validateMinMax('MIN_NUM_FEATURES', 'MAX_NUM_FEATURES');
 validateMinMax('MIN_NUM_CONSTRAINTS', 'MAX_NUM_CONSTRAINTS');
 
 updatePercentage('PERCENTAGE_ABSTRACT_FEATURES', 'NUM_ABSTRACT_FEATURES', 'MAX_NUM_FEATURES');
+
+
+function enableDisableFields(triggerElementId, responseElementsIds) {
+  const triggerElement = document.getElementById(triggerElementId);
+
+  triggerElement.addEventListener('change', () => {
+    if (triggerElement.checked) {
+      for (var id of responseElementsIds) {
+        $("#"+id).prop("disabled", false);
+      }
+    } else {
+      for (var id of responseElementsIds) {
+        $("#"+id).prop("disabled", true);
+      }
+    }
+  });
+}
+
+var abtract_features_elements = ['PERCENTAGE_ABSTRACT_FEATURES', 'NUM_ABSTRACT_FEATURES', 'ROOT_ABSTRACT_FEATURE', 'INTERNAL_ABSTRACT_FEATURES', 'ABSTRACT_LEAF_FEATURES'];
+enableDisableFields('ABSTRACT_FEATURES', ['PERCENTAGE_ABSTRACT_FEATURES', 'NUM_ABSTRACT_FEATURES', 'ROOT_ABSTRACT_FEATURE', 'INTERNAL_ABSTRACT_FEATURES', 'ABSTRACT_LEAF_FEATURES']);
