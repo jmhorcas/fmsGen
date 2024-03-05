@@ -84,7 +84,8 @@ class Params(Enum):
     MODEL_NAME_PREFIX = StrConfigParam('Name/Prefix', 'fm', 'Name or prefix of the model.')
     INCLUDE_NUMFEATURES_PREFIX = CheckBoxConfigParam("Include #Features as name's sufix", True, "Models' names ends with '_XXf' where X is the number of features.")
     INCLUDE_NUMCONSTRAINTS_PREFIX = CheckBoxConfigParam("Include #Constraints as name's sufix", True, "Models' names ends with '_XXc' where X is the number of constraints.")
-
+    
+    ##########
     # Advanced configs
     MIN_NUM_FEATURES = IntConfigParam('#Features min', 10, 'Minimum number of features.')
     MAX_NUM_FEATURES = IntConfigParam('max', 10, 'Maximum number of features.')
@@ -92,7 +93,15 @@ class Params(Enum):
     MIN_NUM_CONSTRAINTS = IntConfigParam('#Constraints min', 1, 'Minimum number of constraints.')
     MAX_NUM_CONSTRAINTS = IntConfigParam('max', 1, 'Maximum number of constraints.')
     UNIFORM_NUM_CONSTRAINTS = CheckBoxConfigParam('Uniform number of constraints', False, 'Generate the models with a uniform number of constraints between min and max (default random).')
+    # Abstract features
+    ABSTRACT_FEATURES = CheckBoxConfigParam('Abstract features', False, 'Include abstract features.')
+    NUM_ABSTRACT_FEATURES = IntConfigParam('', 0, 'Number of abstract features.')
+    PERCENTAGE_ABSTRACT_FEATURES = IntConfigParam('', 0, 'Percentage of abstract features.')
+    ABSTRACT_LEAF_FEATURES = CheckBoxConfigParam('Allow abstract leaf features', False, 'Leaf features can be abstract too.')
+    INTERNAL_ABSTRACT_FEATURES = CheckBoxConfigParam('Make all internal features abstract', False, 'All non-leaf features will be abstract features.')
+    ROOT_ABSTRACT_FEATURE = CheckBoxConfigParam('Make the root feature abstract', False, 'The root feature is always abstract.')
 
+    ##########
     # Non-visible configurable options
     SERIALIZATION_TEMPORAL_DIR = StrConfigParam('Temporal dir', 'tmp/generated', 'Temporal directory used for generating the models.')
 

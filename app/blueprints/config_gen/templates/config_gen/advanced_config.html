@@ -1,6 +1,8 @@
-<!-- PARAM: Minimum and maximum number of features -->
-<fieldset class="customLegend row">
+<!-- FEATURES CONFIGURATION -->
+<fieldset class="customLegend row align-items-center">
   <legend>Features</legend>
+  <!-- Features -->
+  <div class="row align-items-center">
     <div class="col-auto">
       <label for="MIN_NUM_FEATURES" class="col-form-label">{{params.MIN_NUM_FEATURES.title}}</label>
     </div>
@@ -19,10 +21,38 @@
         {{params.UNIFORM_NUM_FEATURES.title}}
       </label>
     </div>
+  </div>
+  <!-- Abstract features -->
+  <div class="row align-items-center">
+    <div class="col-auto">
+      <input class="form-check-input" type="checkbox" id="ABSTRACT_FEATURES" name="ABSTRACT_FEATURES" {% if params and params.ABSTRACT_FEATURES.value %}checked{% endif %}>
+      <label class="form-check-label" for="ABSTRACT_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.ABSTRACT_FEATURES.description}}" >
+        {{params.ABSTRACT_FEATURES.title}}
+      </label>
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="PERCENTAGE_ABSTRACT_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.PERCENTAGE_ABSTRACT_FEATURES.description}}">
+        {{params.PERCENTAGE_ABSTRACT_FEATURES.title}}
+      </label>
+      <div class="input-group">
+        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_ABSTRACT_FEATURES.value}}" id="PERCENTAGE_ABSTRACT_FEATURES" name="PERCENTAGE_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_ABSTRACT_FEATURES.description}}">
+        <div class="input-group-text">%</div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="NUM_ABSTRACT_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.NUM_ABSTRACT_FEATURES.description}}">
+        {{params.NUM_ABSTRACT_FEATURES.title}}
+      </label>
+      <div class="input-group">
+        <input type="number" min="0" max="100" value="{{params.NUM_ABSTRACT_FEATURES.value}}" id="NUM_ABSTRACT_FEATURES" name="NUM_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_ABSTRACT_FEATURES.description}}">
+        <div class="input-group-text">n</div>
+      </div>
+    </div>
+  </div>
 </fieldset>
 
-<!-- PARAM: Minimum and maximum number of constraints -->
-<fieldset class="customLegend row">
+<!-- CONSTRAINTS CONFIGURAITON -->
+<fieldset class="customLegend row align-items-center">
   <legend>Constraints</legend>
     <div class="col-auto">
       <label for="MIN_NUM_CONSTRAINTS" class="col-form-label">{{params.MIN_NUM_CONSTRAINTS.title}}</label>
