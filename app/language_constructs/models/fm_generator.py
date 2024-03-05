@@ -34,6 +34,45 @@ class FMGenerator():
         # Serialization options
         self.set_serialization()
 
+    def set_serialization(self,
+                          models_name_prefix: str = 'fm',
+                          dir: str = 'tmp/generated',
+                          format: SerializationFormat = SerializationFormat.UVL,
+                          include_num_features: bool = False,
+                          include_num_constraints: bool = False) -> None:
+        self._models_name_prefix = models_name_prefix
+        self._serialization_dir = dir
+        self._serialization_format = format
+        self._include_num_features = include_num_features
+        self._include_num_constraints = include_num_constraints
+
+    def set_features(self,
+                     min_num_features: int,
+                     max_num_features: int,
+                     uniform_num_features: bool) -> None:
+        self._min_num_features = min_num_features
+        self._max_num_features = max_num_features
+        self._features_names: tuple[str] = tuple(f'F{i}' for i in range(1, max_num_features + 1))
+        self._uniform_num_features = uniform_num_features
+
+    def set_abstract_features(self,
+                              num_abstract_features: int = 0,
+                              make_root_abstract: bool = False,
+                              make_all_internal_features_abstract: bool = False,
+                              allow_abstract_leaf_features: bool = False) -> None:
+        self._num_abstract_features = num_abstract_features
+        self._make_root_abstract = make_root_abstract
+        self._make_all_internal_features_abstract = make_all_internal_features_abstract
+        self._allow_abstract_leaf_features = allow_abstract_leaf_features
+
+    def set_constraints(self,
+                        min_num_constraints: int,
+                        max_num_constraints: int,
+                        uniform_num_constraints: bool) -> None:
+        self._min_num_constraints = min_num_constraints
+        self._max_num_constraints = max_num_constraints
+        self._uniform_num_constraints = uniform_num_constraints
+
     def generate_random_fm(self,
                            features_names: list[str],
                            num_constraints: int) -> FeatureModel:
@@ -66,7 +105,7 @@ class FMGenerator():
                 fm = random_applicable_instance.apply(fm)
                 features_added = random_applicable_instance.get_features()
                 for f in features_added:
-                    features.remove(f)
+                    features.remove(f)    
         return fm
     
     def _generate_constraints(self, fm: FeatureModel, features: list[str], n_constraints: int) -> FeatureModel:
@@ -78,35 +117,6 @@ class FMGenerator():
                 fm = random_applicable_instance.apply(fm)
                 count += 1
         return fm
-
-    def set_serialization(self,
-                          models_name_prefix: str = 'fm',
-                          dir: str = 'tmp/generated',
-                          format: SerializationFormat = SerializationFormat.UVL,
-                          include_num_features: bool = False,
-                          include_num_constraints: bool = False) -> None:
-        self._models_name_prefix = models_name_prefix
-        self._serialization_dir = dir
-        self._serialization_format = format
-        self._include_num_features = include_num_features
-        self._include_num_constraints = include_num_constraints
-
-    def set_features(self,
-                     min_num_features: int,
-                     max_num_features: int,
-                     uniform_num_features: bool) -> None:
-        self._min_num_features = min_num_features
-        self._max_num_features = max_num_features
-        self._features_names: tuple[str] = tuple(f'F{i}' for i in range(1, max_num_features + 1))
-        self._uniform_num_features = uniform_num_features
-
-    def set_constraints(self,
-                        min_num_constraints: int,
-                        max_num_constraints: int,
-                        uniform_num_constraints: bool) -> None:
-        self._min_num_constraints = min_num_constraints
-        self._max_num_constraints = max_num_constraints
-        self._uniform_num_constraints = uniform_num_constraints
 
     def generate_n_fms(self, n_models: int) -> None:
         count_n_features = 0
@@ -129,6 +139,8 @@ class FMGenerator():
                 n_constraints = random.randint(self._min_num_constraints, self._max_num_constraints)
             # Generate a random FM
             fm = self.generate_random_fm(features_names, n_constraints)
+            # Convert abstract features
+            fm = self._convert_abstract_features(fm)
             # Serialize the FM
             self._serialize_fm(fm, i)
 
@@ -143,3 +155,39 @@ class FMGenerator():
         output_file += f'.{fm_writer.get_destination_extension()}'
         fm_writer(source_model=fm, path=output_file).transform()
         return output_file
+
+    def _convert_abstract_features(self, fm: FeatureModel) -> FeatureModel:
+        features = []
+        leaf_features = []
+        internal_features = []
+        for feature in fm.get_features():
+            if feature.is_leaf():
+                leaf_features.append(feature)
+            else:
+                internal_features.append(feature)
+        count_abstract_features = 0
+        # Make the root abstract
+        if self._make_root_abstract:
+            fm.root.is_abstract = True
+            count_abstract_features += 1
+            if fm.root in internal_features:
+                internal_features.remove(fm.root)
+            if fm.root in leaf_features:
+                leaf_features.remove(fm.root)
+        else:
+            features.append(fm.root)
+            
+        # Make all internal features abstract
+        if self._make_all_internal_features_abstract:
+            for feature in internal_features:
+                fm.get_feature_by_name(feature.name).is_abstract = True
+            count_abstract_features += len(internal_features)
+        else:
+            features.extend(internal_features)
+        if self._allow_abstract_leaf_features:
+            features.extend(leaf_features)
+        convert_n_features = min(len(features), max(0, self._num_abstract_features - count_abstract_features))
+        features_to_convert = random.sample(features, convert_n_features)
+        for feature in features_to_convert:
+            feature.is_abstract = True
+        return fm

@@ -57,7 +57,7 @@
         {{params.NUM_ABSTRACT_FEATURES.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" max="100" value="{{params.NUM_ABSTRACT_FEATURES.value}}" id="NUM_ABSTRACT_FEATURES" name="NUM_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_ABSTRACT_FEATURES.description}}" {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
+        <input type="number" min="0" value="{{params.NUM_ABSTRACT_FEATURES.value}}" id="NUM_ABSTRACT_FEATURES" name="NUM_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_ABSTRACT_FEATURES.description}}" {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
         <div class="input-group-text">n</div>
       </div>
     </div>

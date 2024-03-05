@@ -126,6 +126,10 @@ def generate_feature_models(config_params: dict[dict[str, Any]]) -> None:
     fm_gen.set_features(min_num_features=config_params[Params.MIN_NUM_FEATURES.name]['value'],
                         max_num_features=config_params[Params.MAX_NUM_FEATURES.name]['value'],
                         uniform_num_features=config_params[Params.UNIFORM_NUM_FEATURES.name]['value'])
+    fm_gen.set_abstract_features(num_abstract_features=config_params[Params.NUM_ABSTRACT_FEATURES.name]['value'],
+                                 make_root_abstract=config_params[Params.ROOT_ABSTRACT_FEATURE.name]['value'],
+                                 make_all_internal_features_abstract=config_params[Params.INTERNAL_ABSTRACT_FEATURES.name]['value'],
+                                 allow_abstract_leaf_features=config_params[Params.ABSTRACT_LEAF_FEATURES.name]['value'])
     fm_gen.set_constraints(min_num_constraints=config_params[Params.MIN_NUM_CONSTRAINTS.name]['value'],
                            max_num_constraints=config_params[Params.MAX_NUM_CONSTRAINTS.name]['value'],
                            uniform_num_constraints=config_params[Params.UNIFORM_NUM_CONSTRAINTS.name]['value'],)
