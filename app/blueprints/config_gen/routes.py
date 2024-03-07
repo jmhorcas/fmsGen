@@ -1,6 +1,5 @@
 from typing import Any 
 import shutil
-import tempfile
 
 import flask
 from celery.result import AsyncResult
@@ -24,10 +23,12 @@ def task_result() -> dict[str, object]:
         # Task has completed
         if result.successful():
             params = result.result
-            temp_dir = params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value']
-            temp_filepath = tempfile.NamedTemporaryFile(mode='w', encoding='utf8').name
-            temp_zipfile = shutil.make_archive(temp_filepath, 'zip', temp_dir)
-            zip_filename = f"{params[Params.MODEL_NAME_PREFIX.name]['value']}{params[Params.NUM_MODELS.name]['value']}.zip"
+            #temp_dir = params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value']
+            #temp_filepath = tempfile.NamedTemporaryFile(mode='w', encoding='utf8').name
+            #temp_zipfile = shutil.make_archive(temp_filepath, 'zip', temp_dir)
+            #zip_filename = f"{params[Params.MODEL_NAME_PREFIX.name]['value']}{params[Params.NUM_MODELS.name]['value']}.zip"
+            temp_zipfile = params[Params.ZIP_FILE.name]['value']
+            zip_filename = params[Params.ZIP_FILENAME.name]['value']
             response = flask.make_response(flask.send_file(path_or_file=temp_zipfile, 
                                                             as_attachment=True, 
                                                             download_name=zip_filename))
@@ -78,24 +79,13 @@ def fms_gen():
         params = get_parameters_from_request(request)
         #return flask.Response(generate(), mimetype='text/event-stream')
         # Generate random feature models
-        with tempfile.TemporaryDirectory() as temp_dir:
-            params[Params.SERIALIZATION_TEMPORAL_DIR.name] = Params.SERIALIZATION_TEMPORAL_DIR.value.to_dict()
-            params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value'] = temp_dir
-
-            result = generate_feature_models.delay(params)
-            params[Params.TASK_ID.name]['value'] = result.id
-            return flask.render_template('config_gen/index.html', params=params)
-            return {"result_id": result.id}
-        
-            #return flask.Response(generate_feature_models(params), mimetype='text/event-stream')
-            # Prepare files for download
-            temp_filepath = tempfile.NamedTemporaryFile(mode='w', encoding='utf8').name
-            temp_zipfile = shutil.make_archive(temp_filepath, 'zip', temp_dir)
-            zip_filename = f"{params[Params.MODEL_NAME_PREFIX.name]['value']}{params[Params.NUM_MODELS.name]['value']}.zip"
-            response = flask.make_response(flask.send_file(path_or_file=temp_zipfile, 
-                                                            as_attachment=True, 
-                                                            download_name=zip_filename))
-        return response
+        #params[Params.SERIALIZATION_TEMPORAL_DIR.name] = Params.SERIALIZATION_TEMPORAL_DIR.value.to_dict()
+        #params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value'] = temp_dir
+        print(f'Generate feature models...')
+        result = generate_feature_models.delay(params)
+        print(f'Generate feature models (done!)')
+        params[Params.TASK_ID.name]['value'] = result.id
+        return flask.render_template('config_gen/index.html', params=params)
 
 
 def get_parameters_from_request(request: flask.Request) -> dict[dict[str, Any]]:

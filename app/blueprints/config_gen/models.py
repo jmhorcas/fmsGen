@@ -1,3 +1,5 @@
+import shutil
+import tempfile
 from enum import Enum
 from typing import Any
 from abc import ABC, abstractmethod
@@ -69,6 +71,12 @@ class CheckBoxConfigParam(ConfigParam):
         return value is not None and str(value).lower() in ['on', 'true']
 
 
+class AnyConfigParam(ConfigParam):
+
+   def _parse_value(self, value: Any) -> bool:
+        return value
+   
+
 class NoneConfigParam(ConfigParam):
 
    def _parse_value(self, value: Any) -> bool:
@@ -104,6 +112,8 @@ class Params(Enum):
     # Non-visible configurable options
     SERIALIZATION_TEMPORAL_DIR = StrConfigParam('Temporal dir', 'tmp/generated', 'Temporal directory used for generating the models.')
     TASK_ID = StrConfigParam('Task id', None, 'Task id for long running task of generating models.')
+    ZIP_FILE = StrConfigParam('Zip file', None, 'Zip file containing all generated models.')
+    ZIP_FILENAME = StrConfigParam('Zip filename', None, 'Name of the zip file containing all generated models.')
 
 
 @shared_task(ignore_result=False)
@@ -111,21 +121,28 @@ def generate_feature_models(config_params: dict[dict[str, Any]]) -> dict[dict[st
     tree_lcs = [OptionalFeature, MandatoryFeature, XorGroup, OrGroup, XorChildFeature, OrChildFeature]
     constraints_lcs = [RequiresConstraint, ExcludesConstraint]
 
-    fm_gen = FMGenerator(tree_language_constructs=tree_lcs,
-                         constraints_language_constructs=constraints_lcs)
-    fm_gen.set_serialization(models_name_prefix=config_params[Params.MODEL_NAME_PREFIX.name]['value'], 
-                             dir=config_params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value'],
-                             include_num_features=config_params[Params.INCLUDE_NUMFEATURES_PREFIX.name]['value'],
-                             include_num_constraints=config_params[Params.INCLUDE_NUMCONSTRAINTS_PREFIX.name]['value'])
-    fm_gen.set_features(min_num_features=config_params[Params.MIN_NUM_FEATURES.name]['value'],
-                        max_num_features=config_params[Params.MAX_NUM_FEATURES.name]['value'],
-                        uniform_num_features=config_params[Params.UNIFORM_NUM_FEATURES.name]['value'])
-    fm_gen.set_abstract_features(num_abstract_features=config_params[Params.NUM_ABSTRACT_FEATURES.name]['value'],
-                                 make_root_abstract=config_params[Params.ROOT_ABSTRACT_FEATURE.name]['value'],
-                                 make_all_internal_features_abstract=config_params[Params.INTERNAL_ABSTRACT_FEATURES.name]['value'],
-                                 allow_abstract_leaf_features=config_params[Params.ABSTRACT_LEAF_FEATURES.name]['value'])
-    fm_gen.set_constraints(min_num_constraints=config_params[Params.MIN_NUM_CONSTRAINTS.name]['value'],
-                           max_num_constraints=config_params[Params.MAX_NUM_CONSTRAINTS.name]['value'],
-                           uniform_num_constraints=config_params[Params.UNIFORM_NUM_CONSTRAINTS.name]['value'],)
-    fm_gen.generate_n_fms(n_models=config_params[Params.NUM_MODELS.name]['value'])
+    with tempfile.TemporaryDirectory() as temp_dir:
+        fm_gen = FMGenerator(tree_language_constructs=tree_lcs,
+                            constraints_language_constructs=constraints_lcs)
+        fm_gen.set_serialization(models_name_prefix=config_params[Params.MODEL_NAME_PREFIX.name]['value'], 
+                                dir=config_params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value'],
+                                include_num_features=config_params[Params.INCLUDE_NUMFEATURES_PREFIX.name]['value'],
+                                include_num_constraints=config_params[Params.INCLUDE_NUMCONSTRAINTS_PREFIX.name]['value'])
+        fm_gen.set_features(min_num_features=config_params[Params.MIN_NUM_FEATURES.name]['value'],
+                            max_num_features=config_params[Params.MAX_NUM_FEATURES.name]['value'],
+                            uniform_num_features=config_params[Params.UNIFORM_NUM_FEATURES.name]['value'])
+        fm_gen.set_abstract_features(num_abstract_features=config_params[Params.NUM_ABSTRACT_FEATURES.name]['value'],
+                                    make_root_abstract=config_params[Params.ROOT_ABSTRACT_FEATURE.name]['value'],
+                                    make_all_internal_features_abstract=config_params[Params.INTERNAL_ABSTRACT_FEATURES.name]['value'],
+                                    allow_abstract_leaf_features=config_params[Params.ABSTRACT_LEAF_FEATURES.name]['value'])
+        fm_gen.set_constraints(min_num_constraints=config_params[Params.MIN_NUM_CONSTRAINTS.name]['value'],
+                            max_num_constraints=config_params[Params.MAX_NUM_CONSTRAINTS.name]['value'],
+                            uniform_num_constraints=config_params[Params.UNIFORM_NUM_CONSTRAINTS.name]['value'],)
+        fm_gen.generate_n_fms(n_models=config_params[Params.NUM_MODELS.name]['value'])
+
+        temp_filepath = tempfile.NamedTemporaryFile(mode='w', encoding='utf8').name
+        temp_zipfile = shutil.make_archive(temp_filepath, 'zip', temp_dir)
+        zip_filename = f"{config_params[Params.MODEL_NAME_PREFIX.name]['value']}{config_params[Params.NUM_MODELS.name]['value']}.zip"
+        config_params[Params.ZIP_FILE.name]['value'] = temp_zipfile
+        config_params[Params.ZIP_FILENAME.name]['value'] = zip_filename
     return config_params
