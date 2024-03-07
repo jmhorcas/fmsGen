@@ -1,19 +1,9 @@
-import os
 from enum import Enum
-import shutil
-import tempfile
 from typing import Any
 from abc import ABC, abstractmethod
 
-import flask
-
-from flamapy.metamodels.fm_metamodel.models import FeatureModel
-from flamapy.metamodels.fm_metamodel.transformations import UVLWriter
-
-from language_constructs.models import FMLanguage, FMGenerator
+from language_constructs.models import FMGenerator
 from language_constructs.models.constructs import (
-    FeatureModelConstruct, 
-    RootFeature, 
     OptionalFeature, 
     MandatoryFeature, 
     XorGroup,
@@ -23,6 +13,8 @@ from language_constructs.models.constructs import (
     RequiresConstraint,
     ExcludesConstraint
 )
+
+from celery import shared_task 
 
 
 class ConfigParam(ABC):
@@ -34,8 +26,8 @@ class ConfigParam(ABC):
                  description: str = None) -> None:
         self.title = title
         self.description = description
-        self._value: Any = default_value
-        self._default_value = self._parse_value(default_value)
+        self._default_value = default_value
+        self._value: Any = self._parse_value(default_value)
 
     @property
     def value(self) -> Any:
@@ -111,9 +103,11 @@ class Params(Enum):
     ##########
     # Non-visible configurable options
     SERIALIZATION_TEMPORAL_DIR = StrConfigParam('Temporal dir', 'tmp/generated', 'Temporal directory used for generating the models.')
+    TASK_ID = StrConfigParam('Task id', None, 'Task id for long running task of generating models.')
 
 
-def generate_feature_models(config_params: dict[dict[str, Any]]) -> None:
+@shared_task(ignore_result=False)
+def generate_feature_models(config_params: dict[dict[str, Any]]) -> dict[dict[str, Any]]:
     tree_lcs = [OptionalFeature, MandatoryFeature, XorGroup, OrGroup, XorChildFeature, OrChildFeature]
     constraints_lcs = [RequiresConstraint, ExcludesConstraint]
 
@@ -134,3 +128,4 @@ def generate_feature_models(config_params: dict[dict[str, Any]]) -> None:
                            max_num_constraints=config_params[Params.MAX_NUM_CONSTRAINTS.name]['value'],
                            uniform_num_constraints=config_params[Params.UNIFORM_NUM_CONSTRAINTS.name]['value'],)
     fm_gen.generate_n_fms(n_models=config_params[Params.NUM_MODELS.name]['value'])
+    return config_params

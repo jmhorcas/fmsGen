@@ -1,12 +1,8 @@
 import os
-import threading
 
 import dotenv
 
-import flask
-from flask_sse import sse
-
-from flask_socketio import SocketIO
+from config import create_app
 
 from blueprints.config_gen import config_gen_bp
 
@@ -15,20 +11,23 @@ from blueprints.config_gen import config_gen_bp
 dotenv.load_dotenv()
 
 # Create the App
-app = flask.Flask(__name__,
-                  template_folder='templates',
-                  static_folder='static',
-                  static_url_path='/static')
+flask_app = create_app()
+celery_app = flask_app.extensions["celery"]
+
+# Configure Flask app
+flask_app.template_folder = 'templates'
+flask_app.static_folder = 'static'
+flask_app.static_url_path = '/static'
 #app.config['GENERATION_FOLDER'] = os.getenv('GENERATION_FOLDER')
-app.config["REDIS_URL"] = "redis://localhost"
-app.register_blueprint(sse, url_prefix='/progress')
+flask_app.config["REDIS_URL"] = "redis://localhost"
+#app.register_blueprint(sse, url_prefix='/progress')
 
 # Register blueprints
-app.register_blueprint(config_gen_bp, url_prefix='/')
+flask_app.register_blueprint(config_gen_bp, url_prefix='/')
 
 
 if __name__ == "__main__":
     ENVIRONMENT_DEBUG = os.environ.get("APP_DEBUG", True)
     ENVIRONMENT_PORT = os.environ.get("APP_PORT", 5000)
 
-    app.run(host='0.0.0.0', port=ENVIRONMENT_PORT, threaded=True, debug=ENVIRONMENT_DEBUG)
+    flask_app.run(host='0.0.0.0', port=ENVIRONMENT_PORT, threaded=True, debug=ENVIRONMENT_DEBUG)
