@@ -144,8 +144,8 @@ class FMGenerator():
             # Serialize the FM
             self._serialize_fm(fm, i)
             percentage_completed = (i / n_models) * 100
-            yield percentage_completed
-        yield percentage_completed
+            #yield percentage_completed
+        #yield percentage_completed
 
     def _serialize_fm(self, fm: FeatureModel, id: int) -> str:
         """Serialize the feature model according to the serialization options and return its path."""
@@ -156,6 +156,7 @@ class FMGenerator():
             output_file += f'_{len(fm.get_constraints())}c'
         fm_writer = self._serialization_format.value
         output_file += f'.{fm_writer.get_destination_extension()}'
+        print(f'fm output_file: {output_file}')
         fm_writer(source_model=fm, path=output_file).transform()
         return output_file
 

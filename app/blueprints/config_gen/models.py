@@ -122,10 +122,12 @@ def generate_feature_models(config_params: dict[dict[str, Any]]) -> dict[dict[st
     constraints_lcs = [RequiresConstraint, ExcludesConstraint]
 
     with tempfile.TemporaryDirectory() as temp_dir:
+        config_params[Params.SERIALIZATION_TEMPORAL_DIR.name] = Params.SERIALIZATION_TEMPORAL_DIR.value.to_dict()
+        config_params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value'] = temp_dir
         fm_gen = FMGenerator(tree_language_constructs=tree_lcs,
                             constraints_language_constructs=constraints_lcs)
         fm_gen.set_serialization(models_name_prefix=config_params[Params.MODEL_NAME_PREFIX.name]['value'], 
-                                dir=config_params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value'],
+                                dir=temp_dir,
                                 include_num_features=config_params[Params.INCLUDE_NUMFEATURES_PREFIX.name]['value'],
                                 include_num_constraints=config_params[Params.INCLUDE_NUMCONSTRAINTS_PREFIX.name]['value'])
         fm_gen.set_features(min_num_features=config_params[Params.MIN_NUM_FEATURES.name]['value'],
@@ -137,7 +139,7 @@ def generate_feature_models(config_params: dict[dict[str, Any]]) -> dict[dict[st
                                     allow_abstract_leaf_features=config_params[Params.ABSTRACT_LEAF_FEATURES.name]['value'])
         fm_gen.set_constraints(min_num_constraints=config_params[Params.MIN_NUM_CONSTRAINTS.name]['value'],
                             max_num_constraints=config_params[Params.MAX_NUM_CONSTRAINTS.name]['value'],
-                            uniform_num_constraints=config_params[Params.UNIFORM_NUM_CONSTRAINTS.name]['value'],)
+                            uniform_num_constraints=config_params[Params.UNIFORM_NUM_CONSTRAINTS.name]['value'])
         fm_gen.generate_n_fms(n_models=config_params[Params.NUM_MODELS.name]['value'])
 
         temp_filepath = tempfile.NamedTemporaryFile(mode='w', encoding='utf8').name

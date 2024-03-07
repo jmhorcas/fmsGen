@@ -15,38 +15,56 @@ def index():
     return flask.render_template('config_gen/index.html', params=params)
 
 
-@config_gen_bp.route("/get_result", methods=['GET'])
-def task_result() -> dict[str, object]:
-    result_id = flask.request.args.get('result_id')
-    result = AsyncResult(result_id)
+@config_gen_bp.route("/update_progress/<task_id>", methods=['GET'])
+def update_progress(task_id) -> dict[str, object]:
+    print(f'/update_progress')
+    result = AsyncResult(task_id)
     if result.ready():
+        print(f'result.ready')
         # Task has completed
         if result.successful():
-            params = result.result
-            #temp_dir = params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value']
-            #temp_filepath = tempfile.NamedTemporaryFile(mode='w', encoding='utf8').name
-            #temp_zipfile = shutil.make_archive(temp_filepath, 'zip', temp_dir)
-            #zip_filename = f"{params[Params.MODEL_NAME_PREFIX.name]['value']}{params[Params.NUM_MODELS.name]['value']}.zip"
-            temp_zipfile = params[Params.ZIP_FILE.name]['value']
-            zip_filename = params[Params.ZIP_FILENAME.name]['value']
-            response = flask.make_response(flask.send_file(path_or_file=temp_zipfile, 
-                                                            as_attachment=True, 
-                                                            download_name=zip_filename))
-            return response
-            return {
-                "ready": result.ready(),
-                "successful": result.successful(),
-                "value": result.result,#-Line 7
-            }
+            data = 'data: 100\n\n'
+            return flask.Response(data, mimetype="text/event-stream")
         else:
-        # Task completed with an error
+            # Task completed with an error
             #sse.publish({"message": "Hello!"}, type='greeting')
             return flask.jsonify({'status': 'ERROR', 'error_message': str(result.result)})
     else:
+        print(f'result.pending')
         # Task is still pending
-        return flask.jsonify({'status': 'Running'})
+        # Get percentage
+        data = 'data: 50\n\n'
+        return flask.Response(data, mimetype="text/event-stream")
     
 
+@config_gen_bp.route("/get_result/<task_id>", methods=['GET'])
+def task_result(task_id) -> dict[str, object]:
+    print(f'/get_result')
+    print(f'/result_id {task_id}')
+    result = AsyncResult(task_id)
+    if result.ready():
+        print(f'result.ready')
+        # Task has completed
+        if result.successful():
+            params = result.result
+            temp_zipfile = params[Params.ZIP_FILE.name]['value']
+            zip_filename = params[Params.ZIP_FILENAME.name]['value']
+            print(f'zip.file: {temp_zipfile}')
+            print(f'zip.zip_filename: {zip_filename}')
+            print(f'SERIALIZATION_TEMPORAL_DIR: {params[Params.SERIALIZATION_TEMPORAL_DIR.name]["value"]}')
+            response = flask.make_response(flask.send_file(path_or_file=temp_zipfile, 
+                                                           as_attachment=True, 
+                                                           download_name=zip_filename))
+            return response
+        else:
+            # Task completed with an error
+            #sse.publish({"message": "Hello!"}, type='greeting')
+            return flask.jsonify({'status': 'ERROR', 'error_message': str(result.result)})
+    else:
+        # Task completed with an error
+        #sse.publish({"message": "Hello!"}, type='greeting')
+        return flask.jsonify({'status': 'ERROR', 'error_message': str(result.result)})
+    
 
 # def generate():
 #     x = 0
