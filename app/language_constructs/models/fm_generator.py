@@ -118,7 +118,7 @@ class FMGenerator():
                 count += 1
         return fm
 
-    def generate_n_fms(self, n_models: int) -> None:
+    def generate_n_fms(self, n_models: int):
         count_n_features = 0
         max_min_diff_features = self._max_num_features - self._min_num_features
         count_n_constraints = 0
@@ -143,6 +143,9 @@ class FMGenerator():
             fm = self._convert_abstract_features(fm)
             # Serialize the FM
             self._serialize_fm(fm, i)
+            percentage_completed = (i / n_models) * 100
+            yield percentage_completed
+        yield percentage_completed
 
     def _serialize_fm(self, fm: FeatureModel, id: int) -> str:
         """Serialize the feature model according to the serialization options and return its path."""
