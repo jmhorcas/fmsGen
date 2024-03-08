@@ -118,7 +118,7 @@ class FMGenerator():
                 count += 1
         return fm
 
-    def generate_n_fms(self, n_models: int):
+    def generate_n_fms(self, n_models: int, celery_task):
         count_n_features = 0
         max_min_diff_features = self._max_num_features - self._min_num_features
         count_n_constraints = 0
@@ -144,6 +144,9 @@ class FMGenerator():
             # Serialize the FM
             self._serialize_fm(fm, i)
             percentage_completed = (i / n_models) * 100
+            celery_task.update_state(state='PROGRESS',
+                                     meta={'current': i, 
+                                           'total': n_models})
             #yield percentage_completed
         #yield percentage_completed
 
@@ -156,7 +159,6 @@ class FMGenerator():
             output_file += f'_{len(fm.get_constraints())}c'
         fm_writer = self._serialization_format.value
         output_file += f'.{fm_writer.get_destination_extension()}'
-        print(f'fm output_file: {output_file}')
         fm_writer(source_model=fm, path=output_file).transform()
         return output_file
 

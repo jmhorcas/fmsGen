@@ -116,8 +116,8 @@ class Params(Enum):
     ZIP_FILENAME = StrConfigParam('Zip filename', None, 'Name of the zip file containing all generated models.')
 
 
-@shared_task(ignore_result=False)
-def generate_feature_models(config_params: dict[dict[str, Any]]) -> dict[dict[str, Any]]:
+@shared_task(ignore_result=False, bind=True)
+def generate_feature_models(self, config_params: dict[dict[str, Any]]) -> dict[dict[str, Any]]:
     tree_lcs = [OptionalFeature, MandatoryFeature, XorGroup, OrGroup, XorChildFeature, OrChildFeature]
     constraints_lcs = [RequiresConstraint, ExcludesConstraint]
 
@@ -140,7 +140,7 @@ def generate_feature_models(config_params: dict[dict[str, Any]]) -> dict[dict[st
         fm_gen.set_constraints(min_num_constraints=config_params[Params.MIN_NUM_CONSTRAINTS.name]['value'],
                             max_num_constraints=config_params[Params.MAX_NUM_CONSTRAINTS.name]['value'],
                             uniform_num_constraints=config_params[Params.UNIFORM_NUM_CONSTRAINTS.name]['value'])
-        fm_gen.generate_n_fms(n_models=config_params[Params.NUM_MODELS.name]['value'])
+        fm_gen.generate_n_fms(n_models=config_params[Params.NUM_MODELS.name]['value'], celery_task=self)
 
         temp_filepath = tempfile.NamedTemporaryFile(mode='w', encoding='utf8').name
         temp_zipfile = shutil.make_archive(temp_filepath, 'zip', temp_dir)

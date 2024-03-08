@@ -17,25 +17,23 @@ def index():
 
 @config_gen_bp.route("/update_progress/<task_id>", methods=['GET'])
 def update_progress(task_id) -> dict[str, object]:
-    print(f'/update_progress')
-    result = AsyncResult(task_id)
-    if result.ready():
-        print(f'result.ready')
+    task = AsyncResult(task_id)
+    if task.ready():
         # Task has completed
-        if result.successful():
+        if task.successful():
             data = 'data: 100\n\n'
             return flask.Response(data, mimetype="text/event-stream")
         else:
             # Task completed with an error
-            #sse.publish({"message": "Hello!"}, type='greeting')
-            return flask.jsonify({'status': 'ERROR', 'error_message': str(result.result)})
-    else:
-        print(f'result.pending')
-        # Task is still pending
-        # Get percentage
-        data = 'data: 50\n\n'
+            # flash message with error
+            return flask.url_for('index')
+    elif task.status == 'PENDING':
+        data = 'data: 100\n\n'
         return flask.Response(data, mimetype="text/event-stream")
-    
+    elif task.status == 'PROGRESS':
+        percentage_completed = int((task.info['current'] / task.info['total']) * 100)
+        data = f'data: {percentage_completed}\n\n'
+        return flask.Response(data, mimetype="text/event-stream")
 
 @config_gen_bp.route("/get_result/<task_id>", methods=['GET'])
 def task_result(task_id) -> dict[str, object]:
