@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Any
 from abc import ABC, abstractmethod
 
-from language_constructs.models import FMGenerator
+from language_constructs.models import FMGenerator, SerializationFormat
 from language_constructs.models.constructs import (
     OptionalFeature, 
     MandatoryFeature, 
@@ -88,8 +88,8 @@ class Params(Enum):
     # Basic configs
     NUM_MODELS = IntConfigParam('#Models', 10, 'Number of models to be generated (minimum 1).')
     MODEL_NAME_PREFIX = StrConfigParam('Name/Prefix', 'fm', 'Name or prefix of the model.')
-    INCLUDE_NUMFEATURES_PREFIX = CheckBoxConfigParam("Include #Features as name's sufix", True, "Models' names ends with '_XXf' where X is the number of features.")
-    INCLUDE_NUMCONSTRAINTS_PREFIX = CheckBoxConfigParam("Include #Constraints as name's sufix", True, "Models' names ends with '_XXc' where X is the number of constraints.")
+    INCLUDE_NUMFEATURES_PREFIX = CheckBoxConfigParam("Include #Features as name's sufix", True, "Models' names ends with '_Xf' where X is the number of features.")
+    INCLUDE_NUMCONSTRAINTS_PREFIX = CheckBoxConfigParam("Include #Constraints as name's sufix", True, "Models' names ends with '_Xc' where X is the number of constraints.")
     
     ##########
     # Advanced configs
@@ -107,6 +107,10 @@ class Params(Enum):
     ABSTRACT_LEAF_FEATURES = CheckBoxConfigParam('Allow abstract leaf features', False, 'Leaf features can be abstract too.')
     INTERNAL_ABSTRACT_FEATURES = CheckBoxConfigParam('Make all internal features abstract', False, 'All non-leaf features will be abstract features.')
     ROOT_ABSTRACT_FEATURE = CheckBoxConfigParam('Make the root abstract', False, 'The root feature is always abstract.')
+    # Formats
+    UVL = CheckBoxConfigParam('UVL', True, 'Universal Variability Language (.uvl).')
+    GLENCOE = CheckBoxConfigParam('Glencoe', False, 'Glencoe (.gfm.json).')
+    SPLOT = CheckBoxConfigParam('SPLOT', False, 'S.P.L.O.T. (.sxfm).')
 
     ##########
     # Non-visible configurable options
@@ -121,13 +125,22 @@ def generate_feature_models(self, config_params: dict[dict[str, Any]]) -> dict[d
     tree_lcs = [OptionalFeature, MandatoryFeature, XorGroup, OrGroup, XorChildFeature, OrChildFeature]
     constraints_lcs = [RequiresConstraint, ExcludesConstraint]
 
+    #serialization_formats = [format for format in SerializationFormat if config_params[format.name]['value']]
+    serialization_formats = dict()
     with tempfile.TemporaryDirectory() as temp_dir:
+        # Prepare serialization paths
         config_params[Params.SERIALIZATION_TEMPORAL_DIR.name] = Params.SERIALIZATION_TEMPORAL_DIR.value.to_dict()
         config_params[Params.SERIALIZATION_TEMPORAL_DIR.name]['value'] = temp_dir
+        for format in SerializationFormat:
+            if config_params[format.name]['value']:
+                output_path = tempfile.mkdtemp(prefix=f'{format.name.lower()}_', dir=temp_dir)
+                serialization_formats[format] = output_path
+        # Create and configure FMGenerator instance
         fm_gen = FMGenerator(tree_language_constructs=tree_lcs,
                             constraints_language_constructs=constraints_lcs)
         fm_gen.set_serialization(models_name_prefix=config_params[Params.MODEL_NAME_PREFIX.name]['value'], 
                                 dir=temp_dir,
+                                formats=serialization_formats,
                                 include_num_features=config_params[Params.INCLUDE_NUMFEATURES_PREFIX.name]['value'],
                                 include_num_constraints=config_params[Params.INCLUDE_NUMCONSTRAINTS_PREFIX.name]['value'])
         fm_gen.set_features(min_num_features=config_params[Params.MIN_NUM_FEATURES.name]['value'],
