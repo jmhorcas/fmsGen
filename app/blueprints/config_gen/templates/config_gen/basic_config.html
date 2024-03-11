@@ -32,4 +32,34 @@
         </div>
       </div>
     </div>
-</fieldset>
+
+
+
+    <!-- PARAM: Format -->
+    
+    <fieldset class="customLegend row m-3 align-items-center">
+      <legend>Format</legend>
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="UVL" name="UVL" {% if params and params.UVL.value %}checked{% endif %} required>
+            <label class="form-check-label" for="UVL" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.UVL.description}}" >
+              {{params.UVL.title}}
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="GLENCOE" name="GLENCOE" {% if params and params.GLENCOE.value %}checked{% endif %}>
+            <label class="form-check-label" for="GLENCOE" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.GLENCOE.description}}" >
+              {{params.GLENCOE.title}}
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="SPLOT" name="SPLOT" {% if params and params.SPLOT.value %}checked{% endif %}>
+            <label class="form-check-label" for="SPLOT" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.SPLOT.description}}" >
+              {{params.SPLOT.title}}
+            </label>
+          </div>
+      </div>
+      <div class="invalid-feedback">Example invalid feedback text</div>
+    </fieldset>
+  </fieldset>

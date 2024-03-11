@@ -24,7 +24,7 @@ def update_progress(task_id) -> dict[str, object]:
             return flask.Response(data, mimetype="text/event-stream")
         else:
             # Task completed with an error
-            flask.flash(f"The generation task has completed with an error.", category='error')
+            #flask.flash(f"The generation task has completed with an error.", category='error')
             return flask.redirect(flask.url_for('config_gen.index'))
     elif task.status == 'PENDING':
         data = 'data: 0\n\n'
@@ -49,11 +49,11 @@ def task_result(task_id) -> dict[str, object]:
             return response
         else:
             # Task completed with an error
-            flask.flash(f"The generation task has completed with an error.", category='error')
+            #flask.flash(f"The generation task has completed with an error.", category='error')
             return flask.redirect(flask.url_for('config_gen.index'))
     else:
         # Task completed with an error
-        flask.flash(f"Error in the generation task.", category='error')
+        #flask.flash(f"Error in the generation task.", category='error')
         return flask.redirect(flask.url_for('config_gen.index'))
     
 

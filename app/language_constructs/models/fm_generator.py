@@ -15,7 +15,7 @@ from language_constructs.models.constructs import FeatureModelConstruct, RootFea
 
 class SerializationFormat(Enum):
     UVL = UVLWriter
-    Glencoe = GlencoeWriter
+    GLENCOE = GlencoeWriter
     SPLOT = SPLOTWriter
 
 
@@ -37,12 +37,12 @@ class FMGenerator():
     def set_serialization(self,
                           models_name_prefix: str = 'fm',
                           dir: str = 'tmp/generated',
-                          format: SerializationFormat = SerializationFormat.UVL,
+                          formats: dict[SerializationFormat, str] = None,
                           include_num_features: bool = False,
                           include_num_constraints: bool = False) -> None:
         self._models_name_prefix = models_name_prefix
         self._serialization_dir = dir
-        self._serialization_format = format
+        self._serialization_formats = formats  # (poner un diccionario de format y directorio)
         self._include_num_features = include_num_features
         self._include_num_constraints = include_num_constraints
 
@@ -150,17 +150,22 @@ class FMGenerator():
             #yield percentage_completed
         #yield percentage_completed
 
-    def _serialize_fm(self, fm: FeatureModel, id: int) -> str:
+    def _serialize_fm(self, fm: FeatureModel, id: int) -> list[str]:
         """Serialize the feature model according to the serialization options and return its path."""
-        output_file = os.path.join(self._serialization_dir, f'{self._models_name_prefix}{id}')
+        output_filepaths = []
+        # Configure the sufix (models' names)
+        sufix = f'{self._models_name_prefix}{id}'
         if self._include_num_features:
-            output_file += f'_{len(fm.get_features())}f'
+            sufix += f'_{len(fm.get_features())}f'
         if self._include_num_constraints:
-            output_file += f'_{len(fm.get_constraints())}c'
-        fm_writer = self._serialization_format.value
-        output_file += f'.{fm_writer.get_destination_extension()}'
-        fm_writer(source_model=fm, path=output_file).transform()
-        return output_file
+            sufix += f'_{len(fm.get_constraints())}c'
+        for format, output_path in self._serialization_formats.items():
+            output_file = os.path.join(output_path, f'{self._models_name_prefix}{id}')
+            fm_writer = format.value
+            output_file += f'.{fm_writer.get_destination_extension()}'
+            fm_writer(source_model=fm, path=output_file).transform()
+            output_filepaths.append(output_file)
+        return output_filepaths
 
     def _convert_abstract_features(self, fm: FeatureModel) -> FeatureModel:
         features = []
