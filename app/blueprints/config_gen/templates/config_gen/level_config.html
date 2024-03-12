@@ -1,33 +1,25 @@
-  <!-- PARAM: Number of models -->
-  <div class="row g-3 align-items-center">
-    <div class="col-sm-1">
-      <label for="num_models" class="col-form-label">#Models</label>
+  <!-- PARAM: Levels -->
+  <fieldset class="customLegend row align-items-center">
+    <legend>Language Level</legend>
+    <div class="row align-items-center">
+      <div class="col-auto">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" id="FODA_FMS" name="language_level" {% if params and params.FODA_FMS.value %}checked{% endif %} required>
+          <label class="form-check-label" for="FODA_FMS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.FODA_FMS.description}}" >
+            {{params.FODA_FMS.title}}
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" id="RELAXED_FMS" name="language_level" {% if params and params.RELAXED_FMS.value %}checked{% endif %}>
+          <label class="form-check-label" for="RELAXED_FMS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.RELAXED_FMS.description}}" >
+            {{params.RELAXED_FMS.title}}
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" id="BOOLEAN_FMS" name="language_level" {% if params and params.BOOLEAN_FMS.value %}checked{% endif %}>
+          <label class="form-check-label" for="BOOLEAN_FMS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.BOOLEAN_FMS.description}}" >
+            {{params.BOOLEAN_FMS.title}}
+          </label>
+        </div>
     </div>
-    <div class="col-auto">
-      <input type="number" min="1" value="{{params.num_models}}" id="num_models" name="num_models" class="form-control"
-        aria-describedby="num_modelsHelpInline">
-    </div>
-    <div class="col-auto">
-      <span id="num_modelsHelpInline" class="form-text">
-        Number of models to be generated (mininum 1).
-      </span>
-    </div>
-
-    
-  </div>
-
-  <!-- PARAM: model's name -->
-  <div class="row g-3 align-items-center">
-    <div class="col-sm-1">
-      <label for="model_name" class="col-form-label">Name/Prefix</label>
-    </div>
-    <div class="col-auto">
-      <input value="{{params.model_name}}" id="model_name" name="model_name" class="form-control"
-        aria-describedby="model_nameHelpInline">
-    </div>
-    <div class="col-auto">
-      <span id="model_nameHelpInline" class="form-text">
-        Name or prefix of the model.
-      </span>
-    </div>
-  </div>
+  </fieldset>

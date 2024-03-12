@@ -111,6 +111,31 @@ class Params(Enum):
     UVL = CheckBoxConfigParam('UVL', True, 'Universal Variability Language (.uvl).')
     GLENCOE = CheckBoxConfigParam('Glencoe', False, 'Glencoe (.gfm.json).')
     SPLOT = CheckBoxConfigParam('SPLOT', False, 'S.P.L.O.T. (.sxfm).')
+    # Language levels
+    FODA_FMS = CheckBoxConfigParam('FODA', False, 'Optional, mandatory, or and xor groups, and simple constraints.')
+    RELAXED_FMS = CheckBoxConfigParam('Relaxed FMs', False, 'Only simple constraints and leaf features can be abstract.')
+    BOOLEAN_FMS = CheckBoxConfigParam('Boolean FMs', True, 'Include constraints as arbitrary propositional logical formulas.')
+    CARDINALITY_BASED_FMS = CheckBoxConfigParam('Cardinality based FMs', False, 'Group features with arbitrary cardinality.')
+    EXTENDED_FMS = CheckBoxConfigParam('Extended FMs', False, 'Features can have attributes.')
+    ARITHMETIC_FMS = CheckBoxConfigParam('Arithmetic FMs', False, 'Include numerical features and constraints.')
+    TYPED_FMS = CheckBoxConfigParam('Typed FMs', False, 'Include real, integer, string types for features.')
+    # Relations
+    MANDATORY_FEATURES = NoneConfigParam('#Mandatory features', None, 'Mandatory features of the model.')
+    NUM_MANDATORY_FEATURES = IntConfigParam('', 0, 'Number of mandatory features.')
+    PERCENTAGE_MANDATORY_FEATURES = IntConfigParam('', 0, 'Percentage of mandatory features.')
+    RANDOM_MANDATORY_FEATURES = CheckBoxConfigParam('Random', False, 'Random number of mandatory features.')
+    OPTIONAL_FEATURES = NoneConfigParam('#Optional features', None, 'Optional features of the model.')
+    NUM_OPTIONAL_FEATURES = IntConfigParam('', 0, 'Number of optional features.')
+    PERCENTAGE_OPTIONAL_FEATURES = IntConfigParam('', 0, 'Percentage of optional features.')
+    RANDOM_OPTIONAL_FEATURES = CheckBoxConfigParam('Random', False, 'Random number of optional features.')
+    OR_GROUPS = NoneConfigParam('#Or-group features', None, 'Or-group features of the model.')
+    NUM_OR_GROUPS = IntConfigParam('', 0, 'Number of or-group features.')
+    PERCENTAGE_OR_GROUPS = IntConfigParam('', 0, 'Percentage of or-group features.')
+    RANDOM_OR_GROUPS = CheckBoxConfigParam('Random', False, 'Random number of or-group features.')
+    XOR_GROUPS = NoneConfigParam('#Xor-group features', None, 'Alternative (xor) group features of the model.')
+    NUM_XOR_GROUPS = IntConfigParam('', 0, 'Number of xor-group features.')
+    PERCENTAGE_XOR_GROUPS = IntConfigParam('', 0, 'Percentage of xor-group features.')
+    RANDOM_XOR_GROUPS = CheckBoxConfigParam('Random', False, 'Random number of xor-group features.')
 
     ##########
     # Non-visible configurable options

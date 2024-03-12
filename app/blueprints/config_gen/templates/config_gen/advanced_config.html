@@ -84,6 +84,139 @@
   </div>
 </fieldset>
 
+<!-- RELATIONS CONFIGURATION -->
+<fieldset class="customLegend row align-items-center">
+  <legend>Relations</legend>
+  <!-- Mandatory features -->
+  <div class="row align-items-center">
+    <div class="col-auto">
+      <label for="NUM_MANDATORY_FEATURES" class="col-form-label">{{params.MANDATORY_FEATURES.title}}</label>
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="PERCENTAGE_MANDATORY_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.PERCENTAGE_MANDATORY_FEATURES.description}}">
+        {{params.PERCENTAGE_MANDATORY_FEATURES.title}}
+      </label>
+      <div class="input-group">
+        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_MANDATORY_FEATURES.value}}" id="PERCENTAGE_MANDATORY_FEATURES" name="PERCENTAGE_MANDATORY_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_MANDATORY_FEATURES.description}}">
+        <div class="input-group-text">%</div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="NUM_MANDATORY_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.NUM_MANDATORY_FEATURES.description}}">
+        {{params.NUM_MANDATORY_FEATURES.title}}
+      </label>
+      <div class="input-group">
+        <input type="number" min="0" value="{{params.NUM_MANDATORY_FEATURES.value}}" id="NUM_MANDATORY_FEATURES" name="NUM_MANDATORY_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_MANDATORY_FEATURES.description}}">
+        <div class="input-group-text">n</div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="RANDOM_MANDATORY_FEATURES" name="RANDOM_MANDATORY_FEATURES" {% if params and params.RANDOM_MANDATORY_FEATURES.value %}checked{% endif %}>
+        <label class="form-check-label" for="RANDOM_MANDATORY_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.RANDOM_MANDATORY_FEATURES.description}}">
+          {{params.RANDOM_MANDATORY_FEATURES.title}}
+        </label>
+      </div>
+    </div>
+  </div>
+  <!-- Optional features -->
+  <div class="row pt-1 align-items-center">
+    <div class="col-auto">
+      <label for="NUM_OPTIONAL_FEATURES" class="col-form-label">{{params.OPTIONAL_FEATURES.title}}</label>
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="PERCENTAGE_MANDATORY_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.PERCENTAGE_OPTIONAL_FEATURES.description}}">
+        {{params.PERCENTAGE_OPTIONAL_FEATURES.title}}
+      </label>
+      <div class="input-group">
+        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_OPTIONAL_FEATURES.value}}" id="PERCENTAGE_OPTIONAL_FEATURES" name="PERCENTAGE_OPTIONAL_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_OPTIONAL_FEATURES.description}}">
+        <div class="input-group-text">%</div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="NUM_OPTIONAL_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.NUM_OPTIONAL_FEATURES.description}}">
+        {{params.NUM_OPTIONAL_FEATURES.title}}
+      </label>
+      <div class="input-group">
+        <input type="number" min="0" value="{{params.NUM_OPTIONAL_FEATURES.value}}" id="NUM_OPTIONAL_FEATURES" name="NUM_OPTIONAL_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_OPTIONAL_FEATURES.description}}">
+        <div class="input-group-text">n</div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="RANDOM_OPTIONAL_FEATURES" name="RANDOM_OPTIONAL_FEATURES" {% if params and params.RANDOM_OPTIONAL_FEATURES.value %}checked{% endif %}>
+        <label class="form-check-label" for="RANDOM_OPTIONAL_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.RANDOM_OPTIONAL_FEATURES.description}}">
+          {{params.RANDOM_OPTIONAL_FEATURES.title}}
+        </label>
+      </div>
+    </div>
+  </div>
+  <!-- Or-group features -->
+  <div class="row pt-1 align-items-center">
+    <div class="col-auto">
+      <label for="NUM_OR_GROUPS" class="col-form-label">{{params.OR_GROUPS.title}}</label>
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="PERCENTAGE_OR_GROUPS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.PERCENTAGE_OR_GROUPS.description}}">
+        {{params.PERCENTAGE_OR_GROUPS.title}}
+      </label>
+      <div class="input-group">
+        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_OR_GROUPS.value}}" id="PERCENTAGE_OR_GROUPS" name="PERCENTAGE_OR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_OR_GROUPS.description}}">
+        <div class="input-group-text">%</div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="NUM_OR_GROUPS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.NUM_OR_GROUPS.description}}">
+        {{params.NUM_OR_GROUPS.title}}
+      </label>
+      <div class="input-group">
+        <input type="number" min="0" value="{{params.NUM_OR_GROUPS.value}}" id="NUM_OR_GROUPS" name="NUM_OR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_OR_GROUPS.description}}">
+        <div class="input-group-text">n</div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="RANDOM_OR_GROUPS" name="RANDOM_OR_GROUPS" {% if params and params.RANDOM_OR_GROUPS.value %}checked{% endif %}>
+        <label class="form-check-label" for="RANDOM_OR_GROUPS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.RANDOM_OR_GROUPS.description}}">
+          {{params.RANDOM_OR_GROUPS.title}}
+        </label>
+      </div>
+    </div>
+  </div>
+  <!-- Xor-group features -->
+  <div class="row pt-1 align-items-center">
+    <div class="col-auto">
+      <label for="NUM_XOR_GROUPS" class="col-form-label">{{params.XOR_GROUPS.title}}</label>
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="PERCENTAGE_XOR_GROUPS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.PERCENTAGE_XOR_GROUPS.description}}">
+        {{params.PERCENTAGE_XOR_GROUPS.title}}
+      </label>
+      <div class="input-group">
+        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_XOR_GROUPS.value}}" id="PERCENTAGE_XOR_GROUPS" name="PERCENTAGE_XOR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_XOR_GROUPS.description}}">
+        <div class="input-group-text">%</div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <label class="visually-hidden" for="NUM_XOR_GROUPS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.NUM_XOR_GROUPS.description}}">
+        {{params.NUM_XOR_GROUPS.title}}
+      </label>
+      <div class="input-group">
+        <input type="number" min="0" value="{{params.NUM_XOR_GROUPS.value}}" id="NUM_XOR_GROUPS" name="NUM_XOR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_XOR_GROUPS.description}}">
+        <div class="input-group-text">n</div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="RANDOM_XOR_GROUPS" name="RANDOM_XOR_GROUPS" {% if params and params.RANDOM_XOR_GROUPS.value %}checked{% endif %}>
+        <label class="form-check-label" for="RANDOM_XOR_GROUPS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.RANDOM_XOR_GROUPS.description}}">
+          {{params.RANDOM_XOR_GROUPS.title}}
+        </label>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
 <!-- CONSTRAINTS CONFIGURAITON -->
 <fieldset class="customLegend row align-items-center">
   <legend>Constraints</legend>
