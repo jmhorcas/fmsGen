@@ -1,3 +1,4 @@
+import os
 from typing import Any 
 
 import flask
@@ -46,6 +47,10 @@ def task_result(task_id) -> dict[str, object]:
             response = flask.make_response(flask.send_file(path_or_file=zip_file, 
                                                            as_attachment=True, 
                                                            download_name=zip_filename))
+            try:
+                os.remove(zip_file)
+            except OSError:
+                pass
             return response
         else:
             # Task completed with an error

@@ -132,7 +132,7 @@ class Params(Enum):
     NUM_OR_GROUPS = IntConfigParam('', 0, 'Number of or-group features.')
     PERCENTAGE_OR_GROUPS = IntConfigParam('', 0, 'Percentage of or-group features.')
     RANDOM_OR_GROUPS = CheckBoxConfigParam('Random', False, 'Random number of or-group features.')
-    XOR_GROUPS = NoneConfigParam('#Xor-group features', None, 'Alternative (xor) group features of the model.')
+    XOR_GROUPS = NoneConfigParam('#Xor-group features', None, 'Xor-group features of the model.')
     NUM_XOR_GROUPS = IntConfigParam('', 0, 'Number of xor-group features.')
     PERCENTAGE_XOR_GROUPS = IntConfigParam('', 0, 'Percentage of xor-group features.')
     RANDOM_XOR_GROUPS = CheckBoxConfigParam('Random', False, 'Random number of xor-group features.')
