@@ -10,7 +10,12 @@ from flamapy.metamodels.fm_metamodel.transformations import (
 )
 
 from language_constructs.models import LanguageConstruct
-from language_constructs.models.constructs import FeatureModelConstruct, RootFeature
+from language_constructs.models.constructs import (
+    FeatureModelConstruct, 
+    RootFeature,
+    MandatoryFeature,
+    OptionalFeature
+)
 
 
 class SerializationFormat(Enum):
@@ -65,6 +70,16 @@ class FMGenerator():
         self._make_all_internal_features_abstract = make_all_internal_features_abstract
         self._allow_abstract_leaf_features = allow_abstract_leaf_features
 
+    def set_relations(self,
+                      num_mandatory_features: int = -1,  # -1 means a random number
+                      num_optional_features: int = -1,
+                      num_orgroup_features: int = -1,
+                      num_xorgroup_features: int = -1) -> None:
+        self._num_mandatory_features = num_mandatory_features
+        self._num_optional_features = num_optional_features
+        self._num_orgroup_features = num_orgroup_features
+        self._num_xorgroup_features = num_xorgroup_features
+
     def set_constraints(self,
                         min_num_constraints: int,
                         max_num_constraints: int,
@@ -98,8 +113,14 @@ class FMGenerator():
     
     def _generate_feature_tree(self, fm: FeatureModel, features_names: list[str]) -> FeatureModel:
         features = list(features_names)
+        remaining_lcs = list(self.tree_lcs)
+        count_features = {MandatoryFeature: self._max_num_features if self._num_mandatory_features < 0 else self._num_mandatory_features,
+                          OptionalFeature: self._max_num_features if self._num_optional_features < 0 else self._num_optional_features}
         while features:
-            random_lc = random.choice(self.tree_lcs)
+            # Filter language constructs
+            remaining_lcs = [lc for lc in remaining_lcs if count_features.get(lc, 0) > 0]
+            random_lc = random.choice(remaining_lcs)
+            count_features[random_lc] -= 1
             random_applicable_instance = random_lc.get_random_applicable_instance(fm, features)
             if random_applicable_instance is not None:
                 fm = random_applicable_instance.apply(fm)

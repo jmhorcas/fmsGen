@@ -79,9 +79,7 @@
 
     <script type="text/javascript">
         var task_id = `{{ params.TASK_ID.value | safe if params.TASK_ID.value else null}}`;
-        console.log(task_id);
         if (task_id) {
-            console.log("tiene valor");
             $(document).ready(function() {
                 $("#generate_button").click(update_progress_bar(task_id))
             });
