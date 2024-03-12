@@ -28,6 +28,6 @@ flask_app.register_blueprint(config_gen_bp, url_prefix='/')
 
 if __name__ == "__main__":
     ENVIRONMENT_DEBUG = os.environ.get("APP_DEBUG", True)
-    ENVIRONMENT_PORT = os.environ.get("APP_PORT", 5000)
+    ENVIRONMENT_PORT = os.environ.get("APP_PORT", 5555)
 
     flask_app.run(host='0.0.0.0', port=ENVIRONMENT_PORT, debug=ENVIRONMENT_DEBUG)

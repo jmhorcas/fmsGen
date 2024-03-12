@@ -155,8 +155,8 @@ def generate_feature_models(self, config_params: dict[dict[str, Any]]) -> dict[d
                             uniform_num_constraints=config_params[Params.UNIFORM_NUM_CONSTRAINTS.name]['value'])
         fm_gen.generate_n_fms(n_models=config_params[Params.NUM_MODELS.name]['value'], celery_task=self)
 
-        temp_filepath = tempfile.NamedTemporaryFile(mode='w', encoding='utf8').name
-        temp_zipfile = shutil.make_archive(temp_filepath, 'zip', temp_dir)
+        temp_file = tempfile.NamedTemporaryFile(mode='w', encoding='utf8')
+        temp_zipfile = shutil.make_archive(temp_file.name, 'zip', temp_dir)
         zip_filename = f"{config_params[Params.MODEL_NAME_PREFIX.name]['value']}{config_params[Params.NUM_MODELS.name]['value']}.zip"
         config_params[Params.ZIP_FILE.name]['value'] = temp_zipfile
         config_params[Params.ZIP_FILENAME.name]['value'] = zip_filename

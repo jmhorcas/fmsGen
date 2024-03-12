@@ -41,9 +41,9 @@ def task_result(task_id) -> dict[str, object]:
         # Task has completed
         if task.successful():
             params = task.result
-            temp_zipfile = params[Params.ZIP_FILE.name]['value']
             zip_filename = params[Params.ZIP_FILENAME.name]['value']
-            response = flask.make_response(flask.send_file(path_or_file=temp_zipfile, 
+            zip_file = params[Params.ZIP_FILE.name]['value']
+            response = flask.make_response(flask.send_file(path_or_file=zip_file, 
                                                            as_attachment=True, 
                                                            download_name=zip_filename))
             return response
