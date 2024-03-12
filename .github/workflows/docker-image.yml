@@ -14,5 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker compose -up --tag my-image-name:$(date +%s)
+    - name: Docker-Compose Publish
+      uses: pennsignals/publish_docker-compose@v0.2.6-rc.1
+      with:
+        docker_compose: 'docker-compose.yaml'
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+            
