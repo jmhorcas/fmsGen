@@ -112,7 +112,7 @@
     </div>
     <div class="col-auto">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="RANDOM_MANDATORY_FEATURES" name="RANDOM_MANDATORY_FEATURES" {% if params and params.RANDOM_MANDATORY_FEATURES.value %}checked{% endif %}>
+        <input class="form-check-input" type="checkbox" id="RANDOM_MANDATORY_FEATURES" name="RANDOM_MANDATORY_FEATURES" {% if params and params.RANDOM_MANDATORY_FEATURES.value %}checked{% endif %} disabled>
         <label class="form-check-label" for="RANDOM_MANDATORY_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.RANDOM_MANDATORY_FEATURES.description}}">
           {{params.RANDOM_MANDATORY_FEATURES.title}}
         </label>
@@ -144,7 +144,7 @@
     </div>
     <div class="col-auto">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="RANDOM_OPTIONAL_FEATURES" name="RANDOM_OPTIONAL_FEATURES" {% if params and params.RANDOM_OPTIONAL_FEATURES.value %}checked{% endif %}>
+        <input class="form-check-input" type="checkbox" id="RANDOM_OPTIONAL_FEATURES" name="RANDOM_OPTIONAL_FEATURES" {% if params and params.RANDOM_OPTIONAL_FEATURES.value %}checked{% endif %} disabled>
         <label class="form-check-label" for="RANDOM_OPTIONAL_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.RANDOM_OPTIONAL_FEATURES.description}}">
           {{params.RANDOM_OPTIONAL_FEATURES.title}}
         </label>
@@ -176,7 +176,7 @@
     </div>
     <div class="col-auto">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="RANDOM_OR_GROUPS" name="RANDOM_OR_GROUPS" {% if params and params.RANDOM_OR_GROUPS.value %}checked{% endif %}>
+        <input class="form-check-input" type="checkbox" id="RANDOM_OR_GROUPS" name="RANDOM_OR_GROUPS" {% if params and params.RANDOM_OR_GROUPS.value %}checked{% endif %} disabled>
         <label class="form-check-label" for="RANDOM_OR_GROUPS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.RANDOM_OR_GROUPS.description}}">
           {{params.RANDOM_OR_GROUPS.title}}
         </label>
@@ -208,7 +208,7 @@
     </div>
     <div class="col-auto">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="RANDOM_XOR_GROUPS" name="RANDOM_XOR_GROUPS" {% if params and params.RANDOM_XOR_GROUPS.value %}checked{% endif %}>
+        <input class="form-check-input" type="checkbox" id="RANDOM_XOR_GROUPS" name="RANDOM_XOR_GROUPS" {% if params and params.RANDOM_XOR_GROUPS.value %}checked{% endif %} disabled>
         <label class="form-check-label" for="RANDOM_XOR_GROUPS" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.RANDOM_XOR_GROUPS.description}}">
           {{params.RANDOM_XOR_GROUPS.title}}
         </label>
