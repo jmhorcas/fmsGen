@@ -126,25 +126,12 @@ class FMGenerator():
     
     def _generate_feature_tree(self, fm: FeatureModel, features_names: list[str]) -> FeatureModel:
         features = list(features_names)
-        remaining_lcs = list(self.tree_lcs)
-        count_features = {MandatoryFeature: self._num_random_features if self._num_mandatory_features < 0 else self._num_mandatory_features,
-                          OptionalFeature: self._num_random_features if self._num_optional_features < 0 else self._num_optional_features,
-                          OrGroup: self._num_random_features if self._num_orgroup_features < 0 else self._num_orgroup_features,
-                          XorGroup: self._num_random_features if self._num_xorgroup_features < 0 else self._num_xorgroup_features,
-                          OrChildFeature: self._num_random_features,
-                          XorChildFeature: self._num_random_features}
+
         while features:
             # Filter language constructs
-            remaining_lcs = [lc for lc in remaining_lcs if count_features.get(lc, 0) > 0]
-            random_lc = random.choice(remaining_lcs)
+            random_lc = random.choice(self.tree_lcs)
             random_applicable_instance = random_lc.get_random_applicable_instance(fm, features)
             if random_applicable_instance is not None:
-                # Update counts for language constructs
-                count_features[random_lc] -= 1
-                if isinstance(random_lc, OrGroup):
-                    count_features[OrChildFeature] -= 2
-                elif isinstance(random_lc, XorGroup):
-                    count_features[XorChildFeature] -= 2
                 fm = random_applicable_instance.apply(fm)
                 features_added = random_applicable_instance.get_features()
                 for f in features_added:
