@@ -14,8 +14,16 @@ from language_constructs.models.constructs import (
     FeatureModelConstruct, 
     RootFeature,
     MandatoryFeature,
-    OptionalFeature
+    OptionalFeature,
+    OrGroup,
+    XorGroup,
+    OrChildFeature,
+    XorChildFeature
 )
+
+from celery.utils.log import get_task_logger
+
+logger = get_task_logger(__name__)
 
 
 class SerializationFormat(Enum):
@@ -79,6 +87,11 @@ class FMGenerator():
         self._num_optional_features = num_optional_features
         self._num_orgroup_features = num_orgroup_features
         self._num_xorgroup_features = num_xorgroup_features
+        configurable_lcs = [self._num_mandatory_features, self._num_optional_features, self._num_orgroup_features, self._num_xorgroup_features]
+        total_features_fixed = sum(x for x in configurable_lcs if x >= 0)
+        max_num_random_features = self._max_num_features - total_features_fixed
+        num_lcs_with_random_features = sum(x < 0 for x in configurable_lcs) + 2  # we add the OrChildGroup and XorChildGroup
+        self._num_random_features = int(max_num_random_features / num_lcs_with_random_features)
 
     def set_constraints(self,
                         min_num_constraints: int,
@@ -114,15 +127,24 @@ class FMGenerator():
     def _generate_feature_tree(self, fm: FeatureModel, features_names: list[str]) -> FeatureModel:
         features = list(features_names)
         remaining_lcs = list(self.tree_lcs)
-        count_features = {MandatoryFeature: self._max_num_features if self._num_mandatory_features < 0 else self._num_mandatory_features,
-                          OptionalFeature: self._max_num_features if self._num_optional_features < 0 else self._num_optional_features}
+        count_features = {MandatoryFeature: self._num_random_features if self._num_mandatory_features < 0 else self._num_mandatory_features,
+                          OptionalFeature: self._num_random_features if self._num_optional_features < 0 else self._num_optional_features,
+                          OrGroup: self._num_random_features if self._num_orgroup_features < 0 else self._num_orgroup_features,
+                          XorGroup: self._num_random_features if self._num_xorgroup_features < 0 else self._num_xorgroup_features,
+                          OrChildFeature: self._num_random_features,
+                          XorChildFeature: self._num_random_features}
         while features:
             # Filter language constructs
             remaining_lcs = [lc for lc in remaining_lcs if count_features.get(lc, 0) > 0]
             random_lc = random.choice(remaining_lcs)
-            count_features[random_lc] -= 1
             random_applicable_instance = random_lc.get_random_applicable_instance(fm, features)
             if random_applicable_instance is not None:
+                # Update counts for language constructs
+                count_features[random_lc] -= 1
+                if isinstance(random_lc, OrGroup):
+                    count_features[OrChildFeature] -= 2
+                elif isinstance(random_lc, XorGroup):
+                    count_features[XorChildFeature] -= 2
                 fm = random_applicable_instance.apply(fm)
                 features_added = random_applicable_instance.get_features()
                 for f in features_added:

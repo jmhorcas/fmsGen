@@ -48,7 +48,7 @@
         {{params.PERCENTAGE_ABSTRACT_FEATURES.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_ABSTRACT_FEATURES.value}}" id="PERCENTAGE_ABSTRACT_FEATURES" name="PERCENTAGE_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_ABSTRACT_FEATURES.description}}" {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
+        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_ABSTRACT_FEATURES.value if params.PERCENTAGE_ABSTRACT_FEATURES.value else ''}}" id="PERCENTAGE_ABSTRACT_FEATURES" name="PERCENTAGE_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_ABSTRACT_FEATURES.description}}" {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
         <div class="input-group-text">%</div>
       </div>
     </div>
@@ -57,7 +57,7 @@
         {{params.NUM_ABSTRACT_FEATURES.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" value="{{params.NUM_ABSTRACT_FEATURES.value}}" id="NUM_ABSTRACT_FEATURES" name="NUM_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_ABSTRACT_FEATURES.description}}" {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
+        <input type="number" min="0" value="{{params.NUM_ABSTRACT_FEATURES.value if params.NUM_ABSTRACT_FEATURES.value else ''}}" id="NUM_ABSTRACT_FEATURES" name="NUM_ABSTRACT_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_ABSTRACT_FEATURES.description}}" {% if params and not params.ABSTRACT_FEATURES.value %}disabled{% endif %}>
         <div class="input-group-text">n</div>
       </div>
     </div>
@@ -97,7 +97,7 @@
         {{params.PERCENTAGE_MANDATORY_FEATURES.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_MANDATORY_FEATURES.value}}" id="PERCENTAGE_MANDATORY_FEATURES" name="PERCENTAGE_MANDATORY_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_MANDATORY_FEATURES.description}}">
+        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_MANDATORY_FEATURES.value if params.PERCENTAGE_MANDATORY_FEATURES.value else ''}}" id="PERCENTAGE_MANDATORY_FEATURES" name="PERCENTAGE_MANDATORY_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_MANDATORY_FEATURES.description}}" {% if params and not params.PERCENTAGE_MANDATORY_FEATURES.value %}disabled{% endif %}>
         <div class="input-group-text">%</div>
       </div>
     </div>
@@ -106,7 +106,7 @@
         {{params.NUM_MANDATORY_FEATURES.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" value="{{params.NUM_MANDATORY_FEATURES.value}}" id="NUM_MANDATORY_FEATURES" name="NUM_MANDATORY_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_MANDATORY_FEATURES.description}}">
+        <input type="number" min="0" value="{{params.NUM_MANDATORY_FEATURES.value if params.NUM_MANDATORY_FEATURES.value else ''}}" id="NUM_MANDATORY_FEATURES" name="NUM_MANDATORY_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_MANDATORY_FEATURES.description}}" {% if params and not params.NUM_MANDATORY_FEATURES.value %}disabled{% endif %}>
         <div class="input-group-text">n</div>
       </div>
     </div>
@@ -125,11 +125,11 @@
       <label for="NUM_OPTIONAL_FEATURES" class="col-form-label">{{params.OPTIONAL_FEATURES.title}}</label>
     </div>
     <div class="col-auto">
-      <label class="visually-hidden" for="PERCENTAGE_MANDATORY_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.PERCENTAGE_OPTIONAL_FEATURES.description}}">
+      <label class="visually-hidden" for="PERCENTAGE_OPTIONAL_FEATURES" data-bs-toggle="tooltip" data-bs-placement="right" title="{{params.PERCENTAGE_OPTIONAL_FEATURES.description}}">
         {{params.PERCENTAGE_OPTIONAL_FEATURES.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_OPTIONAL_FEATURES.value}}" id="PERCENTAGE_OPTIONAL_FEATURES" name="PERCENTAGE_OPTIONAL_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_OPTIONAL_FEATURES.description}}">
+        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_OPTIONAL_FEATURES.value if params.PERCENTAGE_OPTIONAL_FEATURES.value else ''}}" id="PERCENTAGE_OPTIONAL_FEATURES" name="PERCENTAGE_OPTIONAL_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_OPTIONAL_FEATURES.description}}" {% if params and not params.PERCENTAGE_OPTIONAL_FEATURES.value %}disabled{% endif %}>
         <div class="input-group-text">%</div>
       </div>
     </div>
@@ -138,7 +138,7 @@
         {{params.NUM_OPTIONAL_FEATURES.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" value="{{params.NUM_OPTIONAL_FEATURES.value}}" id="NUM_OPTIONAL_FEATURES" name="NUM_OPTIONAL_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_OPTIONAL_FEATURES.description}}">
+        <input type="number" min="0" value="{{params.NUM_OPTIONAL_FEATURES.value if params.NUM_OPTIONAL_FEATURES.value else ''}}" id="NUM_OPTIONAL_FEATURES" name="NUM_OPTIONAL_FEATURES" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_OPTIONAL_FEATURES.description}}" {% if params and not params.NUM_OPTIONAL_FEATURES.value %}disabled{% endif %}>
         <div class="input-group-text">n</div>
       </div>
     </div>
@@ -161,7 +161,7 @@
         {{params.PERCENTAGE_OR_GROUPS.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_OR_GROUPS.value}}" id="PERCENTAGE_OR_GROUPS" name="PERCENTAGE_OR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_OR_GROUPS.description}}">
+        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_OR_GROUPS.value if params.PERCENTAGE_OR_GROUPS.value else ''}}" id="PERCENTAGE_OR_GROUPS" name="PERCENTAGE_OR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_OR_GROUPS.description}}" {% if params and not params.PERCENTAGE_OR_GROUPS.value %}disabled{% endif %}>
         <div class="input-group-text">%</div>
       </div>
     </div>
@@ -170,7 +170,7 @@
         {{params.NUM_OR_GROUPS.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" value="{{params.NUM_OR_GROUPS.value}}" id="NUM_OR_GROUPS" name="NUM_OR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_OR_GROUPS.description}}">
+        <input type="number" min="0" value="{{params.NUM_OR_GROUPS.value if params.NUM_OR_GROUPS.value else ''}}" id="NUM_OR_GROUPS" name="NUM_OR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_OR_GROUPS.description}}" {% if params and not params.NUM_OR_GROUPS.value %}disabled{% endif %}>
         <div class="input-group-text">n</div>
       </div>
     </div>
@@ -193,7 +193,7 @@
         {{params.PERCENTAGE_XOR_GROUPS.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_XOR_GROUPS.value}}" id="PERCENTAGE_XOR_GROUPS" name="PERCENTAGE_XOR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_XOR_GROUPS.description}}">
+        <input type="number" min="0" max="100" value="{{params.PERCENTAGE_XOR_GROUPS.value if params.PERCENTAGE_XOR_GROUPS.value else ''}}" id="PERCENTAGE_XOR_GROUPS" name="PERCENTAGE_XOR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.PERCENTAGE_XOR_GROUPS.description}}" {% if params and not params.PERCENTAGE_XOR_GROUPS.value %}disabled{% endif %}>
         <div class="input-group-text">%</div>
       </div>
     </div>
@@ -202,7 +202,7 @@
         {{params.NUM_XOR_GROUPS.title}}
       </label>
       <div class="input-group">
-        <input type="number" min="0" value="{{params.NUM_XOR_GROUPS.value}}" id="NUM_XOR_GROUPS" name="NUM_XOR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_XOR_GROUPS.description}}">
+        <input type="number" min="0" value="{{params.NUM_XOR_GROUPS.value if params.NUM_XOR_GROUPS.value else ''}}" id="NUM_XOR_GROUPS" name="NUM_XOR_GROUPS" class="form-control" data-bs-toggle="tooltip" data-bs-placement="top" title="{{params.NUM_XOR_GROUPS.description}}" {% if params and not params.NUM_XOR_GROUPS.value %}disabled{% endif %}>
         <div class="input-group-text">n</div>
       </div>
     </div>

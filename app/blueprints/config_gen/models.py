@@ -123,19 +123,19 @@ class Params(Enum):
     MANDATORY_FEATURES = NoneConfigParam('#Mandatory features', None, 'Mandatory features of the model.')
     NUM_MANDATORY_FEATURES = IntConfigParam('', 0, 'Number of mandatory features.')
     PERCENTAGE_MANDATORY_FEATURES = IntConfigParam('', 0, 'Percentage of mandatory features.')
-    RANDOM_MANDATORY_FEATURES = CheckBoxConfigParam('Random', False, 'Random number of mandatory features.')
+    RANDOM_MANDATORY_FEATURES = CheckBoxConfigParam('Random', True, 'Random number of mandatory features.')
     OPTIONAL_FEATURES = NoneConfigParam('#Optional features', None, 'Optional features of the model.')
     NUM_OPTIONAL_FEATURES = IntConfigParam('', 0, 'Number of optional features.')
     PERCENTAGE_OPTIONAL_FEATURES = IntConfigParam('', 0, 'Percentage of optional features.')
-    RANDOM_OPTIONAL_FEATURES = CheckBoxConfigParam('Random', False, 'Random number of optional features.')
+    RANDOM_OPTIONAL_FEATURES = CheckBoxConfigParam('Random', True, 'Random number of optional features.')
     OR_GROUPS = NoneConfigParam('#Or-group features', None, 'Or-group features of the model.')
     NUM_OR_GROUPS = IntConfigParam('', 0, 'Number of or-group features.')
     PERCENTAGE_OR_GROUPS = IntConfigParam('', 0, 'Percentage of or-group features.')
-    RANDOM_OR_GROUPS = CheckBoxConfigParam('Random', False, 'Random number of or-group features.')
+    RANDOM_OR_GROUPS = CheckBoxConfigParam('Random', True, 'Random number of or-group features.')
     XOR_GROUPS = NoneConfigParam('#Xor-group features', None, 'Xor-group features of the model.')
     NUM_XOR_GROUPS = IntConfigParam('', 0, 'Number of xor-group features.')
     PERCENTAGE_XOR_GROUPS = IntConfigParam('', 0, 'Percentage of xor-group features.')
-    RANDOM_XOR_GROUPS = CheckBoxConfigParam('Random', False, 'Random number of xor-group features.')
+    RANDOM_XOR_GROUPS = CheckBoxConfigParam('Random', True, 'Random number of xor-group features.')
 
     ##########
     # Non-visible configurable options
@@ -175,6 +175,10 @@ def generate_feature_models(self, config_params: dict[dict[str, Any]]) -> dict[d
                                     make_root_abstract=config_params[Params.ROOT_ABSTRACT_FEATURE.name]['value'],
                                     make_all_internal_features_abstract=config_params[Params.INTERNAL_ABSTRACT_FEATURES.name]['value'],
                                     allow_abstract_leaf_features=config_params[Params.ABSTRACT_LEAF_FEATURES.name]['value'])
+        fm_gen.set_relations(num_mandatory_features=-1 if config_params[Params.RANDOM_MANDATORY_FEATURES.name]['value'] else config_params[Params.NUM_MANDATORY_FEATURES.name]['value'],
+                             num_optional_features=-1 if config_params[Params.RANDOM_OPTIONAL_FEATURES.name]['value'] else config_params[Params.NUM_OPTIONAL_FEATURES.name]['value'],
+                             num_orgroup_features=-1 if config_params[Params.RANDOM_OR_GROUPS.name]['value'] else config_params[Params.NUM_OR_GROUPS.name]['value'],
+                             num_xorgroup_features=-1 if config_params[Params.RANDOM_XOR_GROUPS.name]['value'] else config_params[Params.NUM_XOR_GROUPS.name]['value'])
         fm_gen.set_constraints(min_num_constraints=config_params[Params.MIN_NUM_CONSTRAINTS.name]['value'],
                             max_num_constraints=config_params[Params.MAX_NUM_CONSTRAINTS.name]['value'],
                             uniform_num_constraints=config_params[Params.UNIFORM_NUM_CONSTRAINTS.name]['value'])
