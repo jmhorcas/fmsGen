@@ -40,3 +40,6 @@ class FeatureModelConstruct(LanguageConstruct):
     def get_features(self) -> list[str]:
         return []
     
+    @staticmethod
+    def get_instances(fm: FeatureModel) -> list[FeatureModel]:
+        return [fm] if fm is not None else []

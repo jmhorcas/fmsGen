@@ -90,8 +90,9 @@ class FMGenerator():
         configurable_lcs = [self._num_mandatory_features, self._num_optional_features, self._num_orgroup_features, self._num_xorgroup_features]
         total_features_fixed = sum(x for x in configurable_lcs if x >= 0)
         max_num_random_features = self._max_num_features - total_features_fixed
-        num_lcs_with_random_features = sum(x < 0 for x in configurable_lcs) + 2  # we add the OrChildGroup and XorChildGroup
-        self._num_random_features = int(max_num_random_features / num_lcs_with_random_features)
+        #num_lcs_with_random_features = sum(x < 0 for x in configurable_lcs)
+        #self._num_random_features = int(max_num_random_features / num_lcs_with_random_features)
+        self._num_random_features = max_num_random_features
 
     def set_constraints(self,
                         min_num_constraints: int,
@@ -139,12 +140,7 @@ class FMGenerator():
             random_lc = random.choice(remaining_lcs)
             random_applicable_instance = random_lc.get_random_applicable_instance(fm, features)
             if random_applicable_instance is not None:
-                # Update counts for language constructs
-                count_features[random_lc] -= 1
-                if isinstance(random_lc, OrGroup):
-                    count_features[OrChildFeature] -= 2
-                elif isinstance(random_lc, XorGroup):
-                    count_features[XorChildFeature] -= 2
+                count_features[random_lc] -= 1  # Update counts for language constructs
                 fm = random_applicable_instance.apply(fm)
                 features_added = random_applicable_instance.get_features()
                 for f in features_added:
@@ -153,12 +149,15 @@ class FMGenerator():
     
     def _generate_constraints(self, fm: FeatureModel, features: list[str], n_constraints: int) -> FeatureModel:
         count = 0
-        while count < n_constraints:
+        any_applicable_instance = any(lc.get_random_applicable_instance(fm, features) for lc in self.constraints_lcs)
+        while count < n_constraints and any_applicable_instance:
             random_lc = random.choice(self.constraints_lcs)
             random_applicable_instance = random_lc.get_random_applicable_instance(fm, features)
             if random_applicable_instance is not None:
                 fm = random_applicable_instance.apply(fm)
                 count += 1
+            else:
+                any_applicable_instance = any(lc.get_random_applicable_instance(fm, features) for lc in self.constraints_lcs)
         return fm
 
     def generate_n_fms(self, n_models: int, celery_task):

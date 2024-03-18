@@ -49,3 +49,9 @@ class LanguageConstruct(ABC):
     def get_features(self) -> list[str]:
         """Return the list of features this language construct uses."""
         pass
+
+    @staticmethod
+    @abstractmethod
+    def get_instances(fm: FeatureModel) -> list[Any]:
+        """Return the list of instances of this language construct in the feature model."""
+        pass

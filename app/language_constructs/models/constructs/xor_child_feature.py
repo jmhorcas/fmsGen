@@ -73,3 +73,8 @@ class XorChildFeature(LanguageConstruct):
     
     def get_features(self) -> list[str]:
         return [self.child_name]
+    
+    @staticmethod
+    def get_instances(fm: FeatureModel) -> list[Feature]:
+        return [f for f in fm.get_features() if f.get_parent().is_alternative_group()]
+

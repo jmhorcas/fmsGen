@@ -69,3 +69,7 @@ class OptionalFeature(LanguageConstruct):
         
     def get_features(self) -> list[str]:
         return [self._name]
+    
+    @staticmethod
+    def get_instances(fm: FeatureModel) -> list[Feature]:
+        return fm.get_optional_features()

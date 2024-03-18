@@ -81,3 +81,7 @@ class ExcludesConstraint(LanguageConstruct):
     
     def get_features(self) -> list[str]:
         return []
+    
+    @staticmethod
+    def get_instances(fm: FeatureModel) -> list[Constraint]:
+        return fm.get_excludes_constraints()

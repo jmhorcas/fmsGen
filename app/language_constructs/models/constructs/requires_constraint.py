@@ -81,3 +81,7 @@ class RequiresConstraint(LanguageConstruct):
     
     def get_features(self) -> list[str]:
         return []
+    
+    @staticmethod
+    def get_instances(fm: FeatureModel) -> list[Constraint]:
+        return fm.get_requires_constraints()
