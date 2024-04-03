@@ -137,7 +137,8 @@ class FMGenerator():
         
         while features:
             # Filter language constructs
-            random_lc = random.choice(self.tree_lcs)
+            remaining_lcs = [lc for lc in remaining_lcs if count_features.get(lc, 0) > 0]
+            random_lc = random.choice(remaining_lcs)
             random_applicable_instance = random_lc.get_random_applicable_instance(fm, features)
             if random_applicable_instance is not None:
                 count_features[random_lc] -= 1  # Update counts for language constructs
