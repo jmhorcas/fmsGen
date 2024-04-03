@@ -76,3 +76,7 @@ class OrGroup(LanguageConstruct):
         
     def get_features(self) -> list[str]:
         return [self.child1_name, self.child2_name]
+    
+    @staticmethod
+    def get_instances(fm: FeatureModel) -> list[Feature]:
+        return fm.get_or_group_features()
