@@ -134,6 +134,7 @@ class FMGenerator():
                           XorGroup: self._num_random_features if self._num_xorgroup_features < 0 else self._num_xorgroup_features,
                           OrChildFeature: self._num_random_features,
                           XorChildFeature: self._num_random_features}
+        
         while features:
             # Filter language constructs
             remaining_lcs = [lc for lc in remaining_lcs if count_features.get(lc, 0) > 0]
