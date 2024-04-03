@@ -127,7 +127,14 @@ class FMGenerator():
     
     def _generate_feature_tree(self, fm: FeatureModel, features_names: list[str]) -> FeatureModel:
         features = list(features_names)
-
+        remaining_lcs = list(self.tree_lcs)
+        count_features = {MandatoryFeature: self._num_random_features if self._num_mandatory_features < 0 else self._num_mandatory_features,
+                          OptionalFeature: self._num_random_features if self._num_optional_features < 0 else self._num_optional_features,
+                          OrGroup: self._num_random_features if self._num_orgroup_features < 0 else self._num_orgroup_features,
+                          XorGroup: self._num_random_features if self._num_xorgroup_features < 0 else self._num_xorgroup_features,
+                          OrChildFeature: self._num_random_features,
+                          XorChildFeature: self._num_random_features}
+        
         while features:
             # Filter language constructs
             random_lc = random.choice(self.tree_lcs)
